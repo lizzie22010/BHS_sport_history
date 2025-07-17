@@ -14,6 +14,11 @@ def athletes():
     return render_template('athletes.html')
 
 
+@app.route("/award")
+def award():
+    return render_template('award.html')
+
+
 if __name__ == '__main__':
     # TAKE OUT BEFORE SUBMIT
     app.run(debug=True)
