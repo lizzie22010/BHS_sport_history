@@ -19,6 +19,11 @@ def award():
     return render_template('award.html')
 
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("404.html"), 404
+
+
 if __name__ == '__main__':
     # TAKE OUT BEFORE SUBMIT
     app.run(debug=True)
