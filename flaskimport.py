@@ -14,6 +14,11 @@ def athletes():
     return render_template('athletes.html')
 
 
+@app.route("/all_athletes")
+def all_athletes():
+    return render_template('all_athletes.html')
+
+
 @app.route("/award")
 def award():
     return render_template('award.html')
