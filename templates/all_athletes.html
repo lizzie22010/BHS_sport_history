@@ -10,11 +10,15 @@
   <h1>All athletes list</h1>
   <hr>
   <h2 style="color:green;">ALL ATHLETES</h2>
-  <ul>
-      {# Jinja loop, almost like Python #}
-      {% for athlete in athletes %}
-          <li><a href="/athlete/{{ athlete[0] }}">{{ athlete[1] }}</a></li>
-      {% endfor %}
-  </ul>
+{# Jinja loop, almost like Python #}
+{% for athlete in athletes %}
+    <section class="two-column">
+    <a href="/athlete/{{ athlete[0] }}">{{ athlete[1] }}</a>
+    </section>
+    <section class="two-column">
+    <a href="/athlete/{{ athlete[0] }}">{{ athlete[0] }}</a>
+    </section>
+{% endfor %}
+
 
 {% endblock %}
