@@ -49,7 +49,7 @@ def athletes():
 @app.route("/all_athletes")
 def all_athletes():
     db = get_db()
-    cursor = db.execute('SELECT athlete_id,firstname FROM athlete')
+    cursor = db.execute('SELECT * FROM athlete')
     athletes = cursor.fetchall()
     db.close()
     return render_template('all_athletes.html', title='ALL ATHLETES', athletes=athletes)
