@@ -2,15 +2,15 @@
 {% block content %}
 <!-- navigation bar -->
 <div class="topnav">
-    <a href="/">Home</a>
-    <a class="active" href="/athletes">Athletes</a>
-    <a href="/athletes">Awards</a>
-  </div>
+  <a href="/">Home</a>
+  <a class="active" href="/athletes">Athletes</a>
+  <a href="/athletes">Awards</a>
+</div>
   <!-- tester title text -->
   <h1>All athletes list</h1>
   <hr>
   <h2 style="color:green;">ALL ATHLETES</h2>
-
+<div class="table">
   <table>
     <thead>
       <tr>
@@ -20,30 +20,27 @@
       </tr>
     </thead>
   </table>
-{# Jinja loop, almost like Python #}
-{% for athlete in athletes %}
-    
-<table>
-  <tbody>
-      <tr>
-      <td>
-        <a href="/athlete/{{ athlete[0] }}">{{ athlete[0] }}</a>
-      </td>
-      <td>
-        <a href="/athlete/{{ athlete[0] }}">{{ athlete[1] }}</a>
-        <a href="/athlete/{{ athlete[0] }}">{{ athlete[2] }}</a>
-      </td>
-      <td>placeholder</td>
-    </tr>
-    <tr>
-      <td>aaaaaaaaaaaaaaaaa</td>
-      <td>bbbbbbbbbbbbbbbbb</td>
-      <td>ccccccccccccccccc</td>
-    </tr>
-  </tbody>
-</table>
+  <table>
+  {# Jinja loop, almost like Python #}
+  {% for athlete in athletes %}
+    <tbody>
+        <tr>
+        <td>
+          <a href="/athlete/{{ athlete[0] }}">{{ athlete[0] }}</a>
+        </td>
+        <td>
+          <a href="/athlete/{{ athlete[0] }}">{{ athlete[1] }}</a>
+          <a href="/athlete/{{ athlete[0] }}">{{ athlete[2] }}</a>
+        </td>
+        <td>
+          <a href="/athlete/{{ athlete[0] }}">{{ athlete[3] }}</a>
+        </td>
+      </tr>
+    </tbody>
+  {% endfor %}
+  </table>
+</div>
 
-{% endfor %}
 
 
 {% endblock %}

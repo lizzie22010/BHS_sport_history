@@ -132,3 +132,23 @@ img{
 .dropdown:hover .dropdown-content {
   display: block;
 }
+
+/* Styling for table on all_athletes.html */
+table {
+  width: 100%;
+  border-collapse: collapse; /* Removes double borders */
+}
+
+.table {
+  padding: 50px;
+}
+
+th, td {
+  border: 1px solid #333;
+  padding: 8px;
+  text-align: left;
+}
+
+thead {
+  background-color: #f2f2f2;
+}
