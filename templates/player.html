@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Site</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<!-- navigation bar -->
+<div class="topnav">
+    <a href="/">Home</a>
+    <a class="active" href="/athletes">Athletes</a>
+    <a href="/athletes">Awards</a>
+</div>
+<h1>Athlete profile</h1>
+<hr>
+<body>
+    <h1>{{ athlete.athlete_id }}</h1>
+    <p>Form class (in year of award) {{ athlete[1] }}</p>
+</body>
+<footer>(c)2025</footer>
+</html>

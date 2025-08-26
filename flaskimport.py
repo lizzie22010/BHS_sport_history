@@ -66,34 +66,21 @@ def athlete1():
     return render_template('athlete/1.html')
 
 
-@app.route("/athlete/2")
-def athlete2():
-    return render_template('athlete/2.html')
+# getting the player info from database
+def get_player(player_id):
+    db = get_db()
+    cursor = db.execute("SELECT * FROM athlete WHERE athlete_id = ?", (player_id,))
+    player = cursor.fetchall()
+    db.close()
+    return player
 
 
-@app.route("/athlete/3")
-def athlete3():
-    return render_template('athlete/3.html')
-
-
-@app.route("/athlete/4")
-def athlete4():
-    return render_template('athlete/4.html')
-
-
-@app.route("/athlete/5")
-def athlete5():
-    return render_template('athlete/5.html')
-
-
-@app.route("/athlete/6")
-def athlete6():
-    return render_template('athlete/6.html')
-
-
-@app.route("/athlete/7")
-def athlete7():
-    return render_template('athlete/7.html')
+@app.route("/player/<int:player_id>")
+def player_profile(player_id):
+    athlete = get_player(player_id)
+    if not athlete:
+        page_not_found(404)  # fix here see if works
+    return render_template("player.html", athlete=athlete)
 
 
 #error 404 page
