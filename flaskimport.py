@@ -60,9 +60,41 @@ def award():
     return render_template('award.html')
 
 
-# join tables sport and athlete
-def athlete_and_sport():
-    # WORKING HERE
+# join tables sport and athlete, and fetch sport name
+def athlete_and_sport(athlete_id):
+    db = get_db()
+    cursor = db.execute('''
+        SELECT athlete.athlete_id, sport.sport_name
+        FROM athlete
+        JOIN athlete_sport ON athlete.athlete_id = athlete_sport.athlete_id
+        JOIN sport ON athlete_sport.sport_id = sport.sport_id
+        WHERE athlete.athlete_id = ?
+        ''', (athlete_id,))
+    rowsA = cursor.fetchall()
+    db.close()
+    return rowsA
+
+
+# getting sports
+def get_sport(athlete_id):
+    db = get_db
+    cursor = db.excecute('''
+        SELECT sport.sport_id, sport.sport_name
+        FROM athlete_sport 
+        JOIN sport ON athlete_sport.sport_id = sport.sport_id
+        WHERE athlete_sport.athlete_id = ?''', (athlete_id))
+    rowsB = cursor.fetchall()
+    db.close()
+    return rowsB 
+    
+
+# athlete-sport connection (for player profile)
+def get_sport(athlete_id):   
+    db = get_db()
+    cursor = db.execute("SELECT sport_id FROM athlete_sport WHERE athlete_id = ?", (athlete_id,))
+    sport = cursor.fetchone()
+    db.close()
+    return sport
 
 
 # getting the player info from database
@@ -80,15 +112,6 @@ def player_profile(athlete_id):
     if not athlete:
         page_not_found(404)  # fix here see if works
     return render_template("player.html", athlete=athlete)
-
-
-# athlete-sport connection (for player profile)
-def get_sport(athlete_id):   
-    db = get_db()
-    cursor = db.execute("SELECT sport_id FROM athlete_sport WHERE athlete_id = ?", (athlete_id,))
-    sport = cursor.fetchone()
-    db.close()
-    return sport
 
 
 #error 404 page
