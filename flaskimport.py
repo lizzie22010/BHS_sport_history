@@ -60,6 +60,43 @@ def award():
     return render_template('award.html')
 
 
+# athlete pages
+@app.route("/athlete/1")
+def athlete1():
+    return render_template('athlete/1.html')
+
+
+@app.route("/athlete/2")
+def athlete2():
+    return render_template('athlete/2.html')
+
+
+@app.route("/athlete/3")
+def athlete3():
+    return render_template('athlete/3.html')
+
+
+@app.route("/athlete/4")
+def athlete4():
+    return render_template('athlete/4.html')
+
+
+@app.route("/athlete/5")
+def athlete5():
+    return render_template('athlete/5.html')
+
+
+@app.route("/athlete/6")
+def athlete6():
+    return render_template('athlete/6.html')
+
+
+@app.route("/athlete/7")
+def athlete7():
+    return render_template('athlete/7.html')
+
+
+#error 404 page
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html"), 404
