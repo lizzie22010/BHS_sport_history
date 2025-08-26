@@ -12,11 +12,13 @@
     <a class="active" href="/athletes">Athletes</a>
     <a href="/athletes">Awards</a>
 </div>
-<h1>Athlete profile</h1>
+<h1>Athlete profile - {{ athlete["firstname"] }} {{ athlete["lastname"] }} </h1>
 <hr>
 <body>
-    <h1>{{ athlete.athlete_id }}</h1>
-    <p>Form class (in year of award) {{ athlete[1] }}</p>
+    <p>Form class (in year of award): {{ athlete[3] }} </p>
+    <!-- add athlete's sport here  -->
+    <p>Sport: {{ sport[1] }}</p>
+    <!-- add athlete's award(s) and links to the awards -->
 </body>
 <footer>(c)2025</footer>
 </html>

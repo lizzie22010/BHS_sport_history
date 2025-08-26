@@ -9,11 +9,11 @@ app = Flask(__name__)
 
 
 def get_db():
-    # Use Flask's application context to store the database connection
+    # store the database connection
     db = getattr(g, '_database', None)
     if db is None:
         db = g._database = sqlite3.connect('BHS_sport_history_database.db')
-        db.row_factory = sqlite3.Row  # Enable dictionary-like access to rows
+        db.row_factory = sqlite3.Row 
         # Create tables if they don't exist
         c = db.cursor()
         # Athlete table for storing athlete details
@@ -60,27 +60,35 @@ def award():
     return render_template('award.html')
 
 
-# athlete pages
-@app.route("/athlete/1")
-def athlete1():
-    return render_template('athlete/1.html')
+# join tables sport and athlete
+def athlete_and_sport():
+    # WORKING HERE
 
 
 # getting the player info from database
-def get_player(player_id):
+def get_player(athlete_id):
     db = get_db()
-    cursor = db.execute("SELECT * FROM athlete WHERE athlete_id = ?", (player_id,))
-    player = cursor.fetchall()
+    cursor = db.execute("SELECT * FROM athlete WHERE athlete_id = ?", (athlete_id,))
+    athlete = cursor.fetchone()
     db.close()
-    return player
+    return athlete
 
 
-@app.route("/player/<int:player_id>")
-def player_profile(player_id):
-    athlete = get_player(player_id)
+@app.route("/player/<int:athlete_id>")
+def player_profile(athlete_id):
+    athlete = get_player(athlete_id)
     if not athlete:
         page_not_found(404)  # fix here see if works
     return render_template("player.html", athlete=athlete)
+
+
+# athlete-sport connection (for player profile)
+def get_sport(athlete_id):   
+    db = get_db()
+    cursor = db.execute("SELECT sport_id FROM athlete_sport WHERE athlete_id = ?", (athlete_id,))
+    sport = cursor.fetchone()
+    db.close()
+    return sport
 
 
 #error 404 page
