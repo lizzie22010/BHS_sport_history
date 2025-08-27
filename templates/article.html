@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Site</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<!-- navigation bar -->
+<div class="topnav">
+    <a href="/">Home</a>
+    <a class="active" href="/athletes">Athletes</a>
+    <a href="/athletes">Awards</a>
+</div>
+<h1>
+    {{ article ["title"] }}
+</h1>
+<p>
+    {{ article ["article"]}}
+</p>
+<footer>(c)2025</footer>
+</html>

@@ -114,6 +114,13 @@ def player_profile(athlete_id):
     return render_template("player.html", athlete=athlete, rows=rows)
 
 
+@app.route("/article/<int:article_id>")
+def article(article_id):
+    db = get_db()
+    cursor = db.execute("SELECT * FROM article WHERE article_id = ?", (article_id,))
+    article = cursor.fetchone()
+    return render_template("article.html", article=article)
+
 # error 404 page
 @app.errorhandler(404)
 def page_not_found(e):
