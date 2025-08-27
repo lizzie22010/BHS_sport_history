@@ -13,7 +13,7 @@ def get_db():
     db = getattr(g, '_database', None)
     if db is None:
         db = g._database = sqlite3.connect('BHS_sport_history_database.db')
-        db.row_factory = sqlite3.Row 
+        db.row_factory = sqlite3.Row
         # Create tables if they don't exist
         c = db.cursor()
         # Athlete table for storing athlete details
@@ -79,16 +79,16 @@ def get_sport(athlete_id):
     db = get_db()
     cursor = db.execute('''
         SELECT sport.sport_id, sport.sport_name
-        FROM athlete_sport 
+        FROM athlete_sport
         JOIN sport ON athlete_sport.sport_id = sport.sport_id
-        WHERE athlete_sport.athlete_id = ?''', (athlete_id))
+        WHERE athlete_sport.athlete_id = ?''', (athlete_id,))
     rowsB = cursor.fetchall()
     db.close()
-    return rowsB 
-    
+    return rowsB
+
 
 # athlete-sport connection (for player profile)
-def get_sport(athlete_id):   
+def get_sport1(athlete_id):
     db = get_db()
     cursor = db.execute("SELECT sport_id FROM athlete_sport WHERE athlete_id = ?", (athlete_id,))
     sport = cursor.fetchone()
@@ -114,7 +114,7 @@ def player_profile(athlete_id):
     return render_template("player.html", athlete=athlete, rows=rows)
 
 
-#error 404 page
+# error 404 page
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html"), 404
