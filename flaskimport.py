@@ -70,15 +70,14 @@ def athlete_and_sport(athlete_id):
         JOIN sport ON athlete_sport.sport_id = sport.sport_id
         WHERE athlete.athlete_id = ?
         ''', (athlete_id,))
-    rowsA = cursor.fetchall()
-    db.close()
-    return rowsA
+    rows = cursor.fetchall()
+    return rows
 
 
 # getting sports
 def get_sport(athlete_id):
-    db = get_db
-    cursor = db.excecute('''
+    db = get_db()
+    cursor = db.execute('''
         SELECT sport.sport_id, sport.sport_name
         FROM athlete_sport 
         JOIN sport ON athlete_sport.sport_id = sport.sport_id
@@ -109,9 +108,10 @@ def get_player(athlete_id):
 @app.route("/player/<int:athlete_id>")
 def player_profile(athlete_id):
     athlete = get_player(athlete_id)
+    rows = athlete_and_sport(athlete_id)
     if not athlete:
         page_not_found(404)  # fix here see if works
-    return render_template("player.html", athlete=athlete)
+    return render_template("player.html", athlete=athlete, rows=rows)
 
 
 #error 404 page
