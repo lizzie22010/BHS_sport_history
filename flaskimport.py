@@ -60,45 +60,6 @@ def award():
     return render_template('award.html')
 
 
-# join tables sport and athlete, and fetch sport name
-# unused
-def athlete_and_sport(athlete_id):
-    db = get_db()
-    cursor = db.execute('''
-        SELECT athlete.athlete_id, sport.sport_name
-        FROM athlete
-        JOIN athlete_sport ON athlete.athlete_id = athlete_sport.athlete_id
-        JOIN sport ON athlete_sport.sport_id = sport.sport_id
-        WHERE athlete.athlete_id = ?
-        ''', (athlete_id,))
-    rows = cursor.fetchall()
-    return rows
-
-
-# getting sports
-# unused
-def get_sport(athlete_id):
-    db = get_db()
-    cursor = db.execute('''
-        SELECT sport.sport_id, sport.sport_name
-        FROM athlete_sport
-        JOIN sport ON athlete_sport.sport_id = sport.sport_id
-        WHERE athlete_sport.athlete_id = ?''', (athlete_id,))
-    rowsB = cursor.fetchall()
-    db.close()
-    return rowsB
-
-
-# athlete-sport connection (for player profile)
-# unused
-def get_sport1(athlete_id):
-    db = get_db()
-    cursor = db.execute("SELECT sport_id FROM athlete_sport WHERE athlete_id = ?", (athlete_id,))
-    sport = cursor.fetchone()
-    db.close()
-    return sport
-
-
 # getting the player info from database
 def get_player(athlete_id):
     db = get_db()
@@ -106,23 +67,6 @@ def get_player(athlete_id):
     athlete = cursor.fetchone()
     db.close()
     return athlete
-
-
-# @app.route("/player/<int:athlete_id>")
-# def player_profile(athlete_id):
-#     db = get_db()
-#     cursor = db.execute('''
-#         SELECT athlete.athlete_id, sport.sport_name
-#         FROM athlete
-#         JOIN athlete_sport ON athlete.athlete_id = athlete_sport.athlete_id
-#         JOIN sport ON athlete_sport.sport_id = sport.sport_id
-#         WHERE athlete.athlete_id = ?
-#         ''', (athlete_id,))
-#     rows = cursor.fetchall()
-#     athlete = get_player(athlete_id)
-#     if not athlete:
-#         page_not_found(404)  # fix here see if works
-#     return render_template("player.html", athlete=athlete, rows=rows)
 
 
 @app.route("/player/<int:athlete_id>")
