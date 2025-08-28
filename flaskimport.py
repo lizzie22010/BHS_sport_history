@@ -1,4 +1,4 @@
-from flask import Flask, render_template, g
+from flask import Flask, render_template, g, abort
 import sqlite3
 
 app = Flask(__name__)
@@ -28,7 +28,7 @@ def get_db():
     return db
 
 
-# Close the database connection after each request
+# Automatically close the database connection after each request
 @app.teardown_appcontext
 def close_db(exception):
     db = getattr(g, '_database', None)
@@ -138,7 +138,7 @@ def player_profile(athlete_id):
     rows = cursor.fetchall()
     athlete = get_player(athlete_id)
     if not athlete:
-        page_not_found(404)  # fix here see if works
+        abort(404)  # fix here see if works
     return render_template("player.html", athlete=athlete, rows=rows)
 
 
