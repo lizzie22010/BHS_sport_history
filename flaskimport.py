@@ -61,6 +61,7 @@ def award():
 
 
 # join tables sport and athlete, and fetch sport name
+# unused
 def athlete_and_sport(athlete_id):
     db = get_db()
     cursor = db.execute('''
@@ -75,6 +76,7 @@ def athlete_and_sport(athlete_id):
 
 
 # getting sports
+# unused
 def get_sport(athlete_id):
     db = get_db()
     cursor = db.execute('''
@@ -88,6 +90,7 @@ def get_sport(athlete_id):
 
 
 # athlete-sport connection (for player profile)
+# unused
 def get_sport1(athlete_id):
     db = get_db()
     cursor = db.execute("SELECT sport_id FROM athlete_sport WHERE athlete_id = ?", (athlete_id,))
@@ -105,10 +108,35 @@ def get_player(athlete_id):
     return athlete
 
 
+# @app.route("/player/<int:athlete_id>")
+# def player_profile(athlete_id):
+#     db = get_db()
+#     cursor = db.execute('''
+#         SELECT athlete.athlete_id, sport.sport_name
+#         FROM athlete
+#         JOIN athlete_sport ON athlete.athlete_id = athlete_sport.athlete_id
+#         JOIN sport ON athlete_sport.sport_id = sport.sport_id
+#         WHERE athlete.athlete_id = ?
+#         ''', (athlete_id,))
+#     rows = cursor.fetchall()
+#     athlete = get_player(athlete_id)
+#     if not athlete:
+#         page_not_found(404)  # fix here see if works
+#     return render_template("player.html", athlete=athlete, rows=rows)
+
+
 @app.route("/player/<int:athlete_id>")
 def player_profile(athlete_id):
+    db = get_db()
+    cursor = db.execute('''
+        SELECT athlete.athlete_id, sport.sport_name
+        FROM athlete
+        JOIN athlete_sport ON athlete.athlete_id = athlete_sport.athlete_id
+        JOIN sport ON athlete_sport.sport_id = sport.sport_id
+        WHERE athlete.athlete_id = ?
+        ''', (athlete_id,))
+    rows = cursor.fetchall()
     athlete = get_player(athlete_id)
-    rows = athlete_and_sport(athlete_id)
     if not athlete:
         page_not_found(404)  # fix here see if works
     return render_template("player.html", athlete=athlete, rows=rows)
@@ -120,6 +148,7 @@ def article(article_id):
     cursor = db.execute("SELECT * FROM article WHERE article_id = ?", (article_id,))
     article = cursor.fetchone()
     return render_template("article.html", article=article)
+
 
 # error 404 page
 @app.errorhandler(404)
