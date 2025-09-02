@@ -92,7 +92,7 @@ def player_profile(athlete_id):
     if not athlete:
         abort(404)
     elif not awards:
-        abort(404) # fix here see if works
+        awards = "not yet in database" # fix here see if works
     return render_template("player.html", athlete=athlete, rows=rows, awards=awards)
 
 
