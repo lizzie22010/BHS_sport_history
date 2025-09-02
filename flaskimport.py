@@ -80,11 +80,34 @@ def player_profile(athlete_id):
         WHERE athlete.athlete_id = ?
         ''', (athlete_id,))
     rows = cursor.fetchall()
+    cursorB = db.execute('''
+        SELECT athlete.athlete_id, award.award_name
+        FROM athlete
+        JOIN athlete_award ON athlete.athlete_id = athlete_award.athlete_id
+        JOIN award ON athlete_award.award_id = award.award_id
+        WHERE athlete.athlete_id = ?
+        ''', (athlete_id,))
+    awards = cursorB.fetchall()
     athlete = get_player(athlete_id)
     if not athlete:
-        abort(404)  # fix here see if works
-    return render_template("player.html", athlete=athlete, rows=rows)
+        abort(404)
+    elif not awards:
+        abort(404) # fix here see if works
+    return render_template("player.html", athlete=athlete, rows=rows, awards=awards)
 
+
+def get_award(athlete_id):
+    db = get_db()
+    cursor = db.execute('''
+        SELECT athlete.athlete_id, award.award_name
+        FROM athlete
+        JOIN athlete_award ON athlete.athlete_id = athlete_award.athlete_id
+        JOIN award ON athlete_award.award_id = award.award_id
+        WHERE athlete.athlete_id = ?
+        ''', (athlete_id))
+    awards = cursor.fetchall()
+    return render_template("player.html", awards = awards)
+    
 
 @app.route("/article/<int:article_id>")
 def article(article_id):
