@@ -52,7 +52,8 @@ def all_athletes():
     cursor = db.execute('SELECT * FROM athlete')
     athletes = cursor.fetchall()
     db.close()
-    return render_template('all_athletes.html', title='ALL ATHLETES', athletes=athletes)
+    return render_template('all_athletes.html', title='ALL ATHLETES',
+                           athletes=athletes)
 
 
 @app.route("/award")
@@ -63,7 +64,11 @@ def award():
 # getting the player info from database
 def get_player(athlete_id):
     db = get_db()
-    cursor = db.execute("SELECT * FROM athlete WHERE athlete_id = ?", (athlete_id,))
+    cursor = db.execute('''
+    SELECT *
+    FROM athlete
+    WHERE athlete_id = ?
+    ''', (athlete_id,))
     athlete = cursor.fetchone()
     db.close()
     return athlete
@@ -72,47 +77,34 @@ def get_player(athlete_id):
 @app.route("/player/<int:athlete_id>")
 def player_profile(athlete_id):
     db = get_db()
+# join statement to get award_name and sport_name on player page
     cursor = db.execute('''
-        SELECT athlete.athlete_id, sport.sport_name
+        SELECT athlete.athlete_id, sport.sport_name, award.award_name
         FROM athlete
         JOIN athlete_sport ON athlete.athlete_id = athlete_sport.athlete_id
         JOIN sport ON athlete_sport.sport_id = sport.sport_id
+        JOIN athlete_award ON athlete.athlete_id = athlete_award.athlete_id
+        JOIN award ON athlete_award.award_id = award.award_id
         WHERE athlete.athlete_id = ?
         ''', (athlete_id,))
     rows = cursor.fetchall()
-    cursorB = db.execute('''
-        SELECT athlete.athlete_id, award.award_name
-        FROM athlete
-        JOIN athlete_award ON athlete.athlete_id = athlete_award.athlete_id
-        JOIN award ON athlete_award.award_id = award.award_id
-        WHERE athlete.athlete_id = ?
-        ''', (athlete_id,))
-    awards = cursorB.fetchall()
+# rows contains athlete_id, sport_name, award_name
+# to be displayed on player page
     athlete = get_player(athlete_id)
     if not athlete:
         abort(404)
-    elif not awards:
-        awards = "not yet in database" # fix here see if works
-    return render_template("player.html", athlete=athlete, rows=rows, awards=awards)
+    elif rows is None:
+        rows == "no data"
+    return render_template("player.html", athlete=athlete, rows=rows,)
 
-
-def get_award(athlete_id):
-    db = get_db()
-    cursor = db.execute('''
-        SELECT athlete.athlete_id, award.award_name
-        FROM athlete
-        JOIN athlete_award ON athlete.athlete_id = athlete_award.athlete_id
-        JOIN award ON athlete_award.award_id = award.award_id
-        WHERE athlete.athlete_id = ?
-        ''', (athlete_id))
-    awards = cursor.fetchall()
-    return render_template("player.html", awards = awards)
-    
 
 @app.route("/article/<int:article_id>")
 def article(article_id):
     db = get_db()
-    cursor = db.execute("SELECT * FROM article WHERE article_id = ?", (article_id,))
+    cursor = db.execute('''
+        SELECT *
+        FROM article
+        WHERE article_id = ?''', (article_id,))
     article = cursor.fetchone()
     return render_template("article.html", article=article)
 
