@@ -93,8 +93,6 @@ def player_profile(athlete_id):
     athlete = get_player(athlete_id)
     if not athlete:
         abort(404)
-    elif rows is None:
-        rows == "no data"
     return render_template("player.html", athlete=athlete, rows=rows,)
 
 
