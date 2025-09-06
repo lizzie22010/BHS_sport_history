@@ -74,30 +74,35 @@ def get_player(athlete_id):
     return athlete
 
 
+# getting info to be displayed on player profiles
 @app.route("/player/<int:athlete_id>")
 def player_profile(athlete_id):
     db = get_db()
-    cursor = db.execute('''
+# join athlete to sport to get sport_name for each athlete
+    cursor_sport_name = db.execute('''
         SELECT athlete.athlete_id, sport.sport_name
         FROM athlete
         JOIN athlete_sport ON athlete.athlete_id = athlete_sport.athlete_id
         JOIN sport ON athlete_sport.sport_id = sport.sport_id
         WHERE athlete.athlete_id = ?
         ''', (athlete_id,))
-    rows = cursor.fetchall()
-    cursorB = db.execute('''
+    rows = cursor_sport_name.fetchall()
+# join athlete to award to get award_name for each athlete
+    cursor_award_name= db.execute('''
         SELECT athlete.athlete_id, award.award_name
         FROM athlete
         JOIN athlete_award ON athlete.athlete_id = athlete_award.athlete_id
         JOIN award ON athlete_award.award_id = award.award_id
         WHERE athlete.athlete_id = ?
         ''', (athlete_id,))
-    awards = cursorB.fetchall()
+    awards = cursor_award_name.fetchall()
     athlete = get_player(athlete_id)
+# if no athlete with that id exists, show 404
     if not athlete:
         abort(404)
+# separate so that rest of player profile page works when there is no award
     elif not awards:
-        awards = "not yet in database" # fix here see if works
+        awards = "not yet in database" 
     return render_template("player.html", athlete=athlete, rows=rows, awards=awards)
 
 
