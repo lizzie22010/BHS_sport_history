@@ -77,34 +77,28 @@ def get_player(athlete_id):
 @app.route("/player/<int:athlete_id>")
 def player_profile(athlete_id):
     db = get_db()
-# join statement to get award_name and sport_name on player page
     cursor = db.execute('''
-        SELECT athlete.athlete_id, sport.sport_name, award.award_name
+        SELECT athlete.athlete_id, sport.sport_name
         FROM athlete
         JOIN athlete_sport ON athlete.athlete_id = athlete_sport.athlete_id
         JOIN sport ON athlete_sport.sport_id = sport.sport_id
+        WHERE athlete.athlete_id = ?
+        ''', (athlete_id,))
+    rows = cursor.fetchall()
+    cursorB = db.execute('''
+        SELECT athlete.athlete_id, award.award_name
+        FROM athlete
         JOIN athlete_award ON athlete.athlete_id = athlete_award.athlete_id
         JOIN award ON athlete_award.award_id = award.award_id
         WHERE athlete.athlete_id = ?
         ''', (athlete_id,))
-    rows = cursor.fetchall()
-# rows contains athlete_id, sport_name, award_name
-# to be displayed on player page
+    awards = cursorB.fetchall()
     athlete = get_player(athlete_id)
     if not athlete:
         abort(404)
-    return render_template("player.html", athlete=athlete, rows=rows,)
-
-
-@app.route("/article/<int:article_id>")
-def article(article_id):
-    db = get_db()
-    cursor = db.execute('''
-        SELECT *
-        FROM article
-        WHERE article_id = ?''', (article_id,))
-    article = cursor.fetchone()
-    return render_template("article.html", article=article)
+    elif not awards:
+        awards = "not yet in database" # fix here see if works
+    return render_template("player.html", athlete=athlete, rows=rows, awards=awards)
 
 
 # error 404 page
