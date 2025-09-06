@@ -88,7 +88,7 @@ def player_profile(athlete_id):
         ''', (athlete_id,))
     rows = cursor_sport_name.fetchall()
 # join athlete to award to get award_name for each athlete
-    cursor_award_name= db.execute('''
+    cursor_award_name = db.execute('''
         SELECT athlete.athlete_id, award.award_name
         FROM athlete
         JOIN athlete_award ON athlete.athlete_id = athlete_award.athlete_id
@@ -101,8 +101,8 @@ def player_profile(athlete_id):
     if not athlete:
         abort(404)
 # separate so that rest of player profile page works when there is no award
-    elif not awards:
-        awards = "not yet in database" 
+    if not awards:
+        awards = []
     return render_template("player.html", athlete=athlete, rows=rows, awards=awards)
 
 
