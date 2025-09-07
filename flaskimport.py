@@ -106,6 +106,17 @@ def player_profile(athlete_id):
     return render_template("player.html", athlete=athlete, rows=rows, awards=awards)
 
 
+@app.route("/award/<int:award_id>")
+def award_page(award_id):
+    db = get_db()
+    cursor = db.execute('''
+        SELECT award_name
+        FROM award
+        WHERE award_id = ?''',
+        (award_id,))
+    award_name = cursor.fetchone()
+    return render_template("award_page.html", award_name=award_name )
+
 # error 404 page
 @app.errorhandler(404)
 def page_not_found(e):
