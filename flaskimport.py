@@ -89,7 +89,7 @@ def player_profile(athlete_id):
     rows = cursor_sport_name.fetchall()
 # join athlete to award to get award_name for each athlete
     cursor_award_name = db.execute('''
-        SELECT athlete.athlete_id, award.award_name
+        SELECT athlete.athlete_id, award.award_name, award.award_id
         FROM athlete
         JOIN athlete_award ON athlete.athlete_id = athlete_award.athlete_id
         JOIN award ON athlete_award.award_id = award.award_id
@@ -110,11 +110,13 @@ def player_profile(athlete_id):
 def award_page(award_id):
     db = get_db()
     cursor = db.execute('''
-        SELECT award_name, description
+        SELECT award_name, trophy_name, description, award_id
         FROM award
         WHERE award_id = ?''',
         (award_id,))
     award_info = cursor.fetchone()
+    if not award_info:
+        abort(404)
     return render_template("award_page.html", award_info=award_info )
 
 # error 404 page

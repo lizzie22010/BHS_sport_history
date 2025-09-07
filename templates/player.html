@@ -18,7 +18,9 @@
     <p>
         Awards won: 
         {% for award in awards %}
-            <li>{{ award["award_name"] }}</li>
+            <li>
+                <a href="/award/{{ award[2] }}"> {{award["award_name"] }}</a>
+            </li>
         {% endfor %}
     </p>
 </body>
