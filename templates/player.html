@@ -22,7 +22,10 @@
     </p>
     <!-- add athlete's award(s) and links to the awards -->
     <p>
-        Awards won: {{ awards[0] ["award_name"] }}
+        Awards won: 
+        {% for award in awards %}
+            <li>{{ award["award_name"] }}</li>
+        {% endfor %}
     </p>
 </body>
 <footer>(c)2025</footer>
