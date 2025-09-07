@@ -14,21 +14,10 @@ def get_db():
     if db is None:
         db = g._database = sqlite3.connect('BHS_sport_history_database.db')
         db.row_factory = sqlite3.Row
-        # Create tables if they don't exist
-        c = db.cursor()
-        # Athlete table for storing athlete details
-        c.execute('''CREATE TABLE IF NOT EXISTS athlete (
-                        athlete_id INTEGER PRIMARY KEY
-                                        NOT NULL,
-                        firstname  TEXT    NOT NULL,
-                        lastname   TEXT    NOT NULL,
-                        formclass  TEXT
-                    )''')
-        db.commit()
     return db
 
 
-# Automatically close the database connection after each request
+# automatically close the database connection after each request
 @app.teardown_appcontext
 def close_db(exception):
     db = getattr(g, '_database', None)
@@ -36,6 +25,7 @@ def close_db(exception):
         db.close()
 
 
+# homepage
 @app.route('/')
 def home():
     return render_template("home.html", title="Home")
@@ -49,6 +39,7 @@ def athletes():
 @app.route("/all_athletes")
 def all_athletes():
     db = get_db()
+# get all athletes for the all_athletes list 
     cursor = db.execute('SELECT * FROM athlete')
     athletes = cursor.fetchall()
     db.close()
@@ -99,7 +90,7 @@ def player_profile(athlete_id):
     athlete = get_player(athlete_id)
 # if no athlete with that id exists, show 404
     if not athlete:
-        abort(404)
+        return render_template("")
 # separate so that rest of player profile page works when there is no award
     if not awards:
         awards = [""]
@@ -115,9 +106,11 @@ def award_page(award_id):
         WHERE award_id = ?''',
         (award_id,))
     award_info = cursor.fetchone()
+# if there is no award of that id then abort(404)
     if not award_info:
         abort(404)
     return render_template("award_page.html", award_info=award_info )
+
 
 # error 404 page
 @app.errorhandler(404)
