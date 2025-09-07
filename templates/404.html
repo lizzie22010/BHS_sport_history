@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+<div class="topnav">
+    <a href="/">Home</a>
+    <a href="/athletes">Athletes</a>
+    <a href="/award">Awards</a>
+</div>
 <head>
     <meta charset="UTF-8">
     <title>Page Not Found</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
         body {
             font-family: sans-serif;
             background-color: #f3f3f3;
             text-align: center;
-            padding-top: 100px;
         }
         h1 {
             font-size: 80px;

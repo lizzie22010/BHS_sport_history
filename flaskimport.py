@@ -4,10 +4,6 @@ import sqlite3
 app = Flask(__name__)
 
 
-# Function to get the database connection
-# Creates the database and tables if they don't exist
-
-
 def get_db():
     # store the database connection
     db = getattr(g, '_database', None)
@@ -90,7 +86,7 @@ def player_profile(athlete_id):
     athlete = get_player(athlete_id)
 # if no athlete with that id exists, show 404
     if not athlete:
-        return render_template("")
+        abort(404)
 # separate so that rest of player profile page works when there is no award
     if not awards:
         awards = [""]
