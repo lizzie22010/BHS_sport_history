@@ -102,7 +102,7 @@ def player_profile(athlete_id):
         abort(404)
 # separate so that rest of player profile page works when there is no award
     if not awards:
-        awards = []
+        awards = [""]
     return render_template("player.html", athlete=athlete, rows=rows, awards=awards)
 
 
