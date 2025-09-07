@@ -110,12 +110,12 @@ def player_profile(athlete_id):
 def award_page(award_id):
     db = get_db()
     cursor = db.execute('''
-        SELECT award_name
+        SELECT award_name, description
         FROM award
         WHERE award_id = ?''',
         (award_id,))
-    award_name = cursor.fetchone()
-    return render_template("award_page.html", award_name=award_name )
+    award_info = cursor.fetchone()
+    return render_template("award_page.html", award_info=award_info )
 
 # error 404 page
 @app.errorhandler(404)

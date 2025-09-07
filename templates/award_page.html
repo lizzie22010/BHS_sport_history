@@ -7,8 +7,10 @@
   <a class="active" href="/award">Awards</a>
 </div>
 <!-- title text -->
-<h1> {{ award_name["award_name"] }} </h1>
+<h1> {{ award_info["award_name"] }} </h1>
 <hr>
-
+<body>
+    <p> {{ award_info["description"] }}</p>
+</body>
 
 {% endblock %}
