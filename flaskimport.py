@@ -23,6 +23,16 @@ def close_db(exception):
 
 # homepage
 @app.route('/')
+def articles(article_id):
+    db = get_db()
+    cursor = db.execute('''
+        SELECT *
+        FROM article
+        WHERE article_id = ?
+        ''', (article_id))
+    article = cursor.fetchone()
+    db.close()
+    return article
 def home():
     return render_template("home.html", title="Home")
 
