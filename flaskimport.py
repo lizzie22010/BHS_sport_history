@@ -21,20 +21,24 @@ def close_db(exception):
         db.close()
 
 
+def get_all_articles():
+    db = get_db()
+    cursor = db.execute("""
+        SELECT article_id, title, content
+        FROM article
+        ORDER BY article_id ASC
+    """)
+    articles = cursor.fetchall()
+    db.close()
+    return articles
+
+
 # homepage
 @app.route('/')
-def articles(article_id):
-    db = get_db()
-    cursor = db.execute('''
-        SELECT *
-        FROM article
-        WHERE article_id = ?
-        ''', (article_id))
-    article = cursor.fetchone()
-    db.close()
-    return article
-def home():
-    return render_template("home.html", title="Home")
+# get the athlete's articles for hompage display
+def show_articles():
+    articles = get_all_articles()
+    return render_template("home.html", articles=articles, title="Home")
 
 
 @app.route('/athletes')
