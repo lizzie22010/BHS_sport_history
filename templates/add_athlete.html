@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block content %}
+<!-- navigation bar -->
+<div class="topnav">
+  <a href="/">Home</a>
+  <a href="/athletes">Athletes</a>
+  <a href="/award">Awards</a>
+  <a class="active" href="/add_athlete">Admin</a>
+</div>
+<h1>Add New Athlete</h1>
+
+<!-- form for adding an athlete -->
+<form method="POST" action="/add_athlete">
+
+<!-- textboxes for the user to input first and last name -->
+  <label for="firstname">First Name:</label><br>
+  <input type="text" id="firstname" name="firstname" required><br><br>
+  <label for="lastname">Last Name:</label><br>
+  <input type="text" id="lastname" name="lastname" required><br><br>
+
+<!-- dropdown box for user to select sport -->
+  <label for="sport">Sport:</label><br>
+  <select id="sport" name="sport" required>
+    {% for sport in sports %}
+      <option value="{{ sport['sport_name'] }}">{{ sport['sport_name'] }}</option>
+    {% endfor %}
+  </select><br><br>
+
+<!-- dropdown box for the user to select award -->
+  <label for="award">Award:</label><br>
+  <select id="award" name="award" required>
+    {% for award in awards %}
+      <option value="{{ award['award_name'] }}">{{ award['award_name'] }}</option>
+    {% endfor %}
+  </select><br><br>
+
+<!-- box for the input of tha award year -->
+  <label for="award_year">Award Year:</label><br>
+  <input type="number" id="award_year" name="award_year" required><br><br>
+
+<!-- submit button for the new athlete to be committed into the database -->
+  <input type="submit" value="Add Athlete">
+</form>
+<!-- message that tells the user what went wrong (if something goes wrong) -->
+{% if message %}
+  <p><strong>{{ message }}</strong></p>
+{% endif %}
+{% endblock %}

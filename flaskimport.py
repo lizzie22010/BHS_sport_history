@@ -1,11 +1,11 @@
-from flask import Flask, render_template, g, abort
+from flask import Flask, render_template, g, abort, request
 import sqlite3
 
 app = Flask(__name__)
 
 
 def get_db():
-    # store the database connection
+    # stores the database connection for db = get_db() 
     db = getattr(g, '_database', None)
     if db is None:
         db = g._database = sqlite3.connect('BHS_sport_history_database.db')
@@ -121,6 +121,104 @@ def award_page(award_id):
         abort(404)
     return render_template("award_page.html", award_info=award_info )
 
+
+@app.route("/add_athlete", methods=['GET', 'POST'])
+def add_athlete_page():
+    db = get_db()
+    cursor = db.cursor()
+    # gets options for sport dropdown
+    cursor.execute('''
+        SELECT sport_name
+        FROM sport
+        ORDER BY sport_name
+        ''')
+    sports = cursor.fetchall()
+    # gets options for the awards dropdown
+    cursor.execute('''
+        SELECT award_name 
+        FROM award
+        ORDER BY award_name''')
+    awards = cursor.fetchall()
+
+    # message is so that if something goes wrong it will tell the user
+    message = ""
+    if request.method == 'POST':
+        firstname = request.form.get('firstname', '').strip()
+        lastname = request.form.get('lastname', '').strip()
+        sport_name = request.form.get('sport')
+        award_name = request.form.get('award')
+        award_year = request.form.get('award_year')
+        try:
+            award_year = int(award_year)
+            add_athlete(firstname, lastname, sport_name, award_name, award_year)
+            message = f"Athlete '{firstname} {lastname}' added successfully."
+        except Exception as e:
+            message = f"Error: {str(e)}"
+    return render_template( 'add_athlete.html', sports=sports, awards=awards, message=message)
+
+
+# def for form to insert athletes and their awards into the database
+def add_athlete(firstname, lastname, sport_name, award_name, award_year):
+    db = get_db()
+    cursor = db.cursor()
+# insert athlete into athlete table if they don't already exist
+    cursor.execute('''
+        INSERT INTO athlete (firstname, lastname)
+        SELECT ?, ?
+        WHERE NOT EXISTS (
+            SELECT 1
+            FROM athlete
+            WHERE firstname = ? AND lastname = ?
+        )
+        ''', (firstname, lastname, firstname, lastname))
+# get the athlete_id of the inserted athlete
+    cursor.execute('''
+        SELECT athlete_id
+        FROM athlete
+        WHERE firstname = ? AND lastname = ?
+        ''', (firstname, lastname))
+    athlete_id = cursor.fetchone()['athlete_id']
+# get sport_id for the sport the athlete plays
+    cursor.execute('''
+        SELECT sport_id
+        FROM sport
+        WHERE sport_name = ?
+        ''', (sport_name,))
+    sport = cursor.fetchone()
+    if not sport:
+        raise ValueError(f"Sport '{sport_name}' not found in database.")
+    sport_id = sport['sport_id']
+# insert athlete_sport if it does not exist
+    cursor.execute('''
+        INSERT INTO athlete_sport (athlete_id, sport_id)
+        SELECT ?, ?
+        WHERE NOT EXISTS (
+            SELECT 1
+            FROM athlete_sport
+            WHERE athlete_id = ? AND sport_id = ? 
+        )
+    ''', (athlete_id, sport_id, athlete_id, sport_id))
+# get award_id of the award
+    cursor.execute('''SELECT award_id
+        FROM award
+        WHERE award_name = ?
+        ''', (award_name,))
+    award = cursor.fetchone()
+    if not award:
+        raise ValueError(f"Award '{award_name}' not found in database.")
+    award_id = award['award_id']
+# insert athlete_award if not exists
+    cursor.execute('''
+        INSERT INTO athlete_award (athlete_id, award_id, award_year)
+        SELECT ?, ?, ?
+        WHERE NOT EXISTS (
+            SELECT 1 
+            FROM athlete_award
+            WHERE athlete_id = ? AND award_id = ? AND award_year = ?
+        )
+    ''', (athlete_id, award_id, award_year, athlete_id, award_id, award_year))
+    db.commit()
+    print("Adding athlete:", firstname, lastname)
 
 # error 404 page
 @app.errorhandler(404)
