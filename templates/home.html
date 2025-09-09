@@ -11,19 +11,17 @@
 <h1>Burnside Sport History</h1>
 <hr>
 <h1>Featured articles</h1>
-    {% if articles %}
+{% for article in articles %}
+    <section class="two-column"></section>
         <ul>
-        {% for article in articles %}
             <li>
-                <h2>{{ article['title'] }}</h2>
+                <h2><a href="/article/{{article['article_id']}}"> {{ article['title'] }} </a></h2>
 <!-- <p><em>Published: {{ article['published_date'] }}</em></p> -->
 <p>{{ article['content'] }}</p>
 <!-- <img src="{{ article['image_url'] }}" alt="{{ article['title'] }}"> -->
             </li>
-        {% endfor %}
         </ul>
-    {% else %}
-        <p>No articles found.</p>
-    {% endif %}
+    </section>
+ {% endfor %}
 
 {% endblock %}
