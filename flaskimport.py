@@ -24,13 +24,26 @@ def close_db(exception):
 def get_all_articles():
     db = get_db()
     cursor = db.execute("""
-        SELECT article_id, title, content
+        SELECT *
         FROM article
         ORDER BY article_id ASC
     """)
     articles = cursor.fetchall()
-    db.close()
     return articles
+
+
+# page for each article using article.html
+@app.route("/article/<int:article_id>")
+def article_page(article_id):
+    db = get_db()
+# get all info from article table
+    cursor = db.execute("""
+        SELECT *
+        FROM article
+        WHERE article_id = ?
+    """, (article_id,))
+    article = cursor.fetchone()
+    return render_template("article.html", article=article)
 
 
 # homepage
@@ -119,7 +132,7 @@ def award_page(award_id):
 # if there is no award of that id then abort(404)
     if not award_info:
         abort(404)
-    return render_template("award_page.html", award_info=award_info )
+    return render_template("award_page.html", award_info=award_info)
 
 
 @app.route("/add_athlete", methods=['GET', 'POST'])
