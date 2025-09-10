@@ -12,7 +12,12 @@
 <hr>
 <h1>Featured articles</h1>
 {% for article in articles %}
-    <section class="two-column"></section>
+    <section class="two-column">
+        <ul>
+            <a href="/article/{{article['article_id']}}"> 
+                <img src= "{{ article['image'] }}" alt="{{ article['title']}}"> 
+            </a>
+        </ul>
         <ul>
             <li>
                 <h2><a href="/article/{{article['article_id']}}"> {{ article['title'] }} </a></h2>
