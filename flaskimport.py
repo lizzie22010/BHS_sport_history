@@ -71,20 +71,25 @@ def show_articles():
     return render_template("home.html", articles=articles, title="Home", athletes=athletes)
 
 
-@app.route('/athletes')
-def athletes():
-    return render_template('athletes.html')
-
-
-@app.route("/all_athletes")
-def all_athletes():
+# def to be used in app route /athletes and /all_athletes
+def fetch_all_athletes():
     db = get_db()
 # get all athletes for the all_athletes list 
     cursor = db.execute('SELECT * FROM athlete')
     athletes = cursor.fetchall()
-    db.close()
-    return render_template('all_athletes.html', title='ALL ATHLETES',
-                           athletes=athletes)
+    return athletes
+
+
+@app.route('/athletes')
+def athletes():
+    athletes = fetch_all_athletes()
+    return render_template('athletes.html', athletes=athletes)
+
+
+@app.route("/all_athletes")
+def get_all_athletes():
+    athletes = fetch_all_athletes()
+    return render_template('all_athletes.html', athletes=athletes)
 
 
 @app.route("/award")
