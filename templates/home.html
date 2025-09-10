@@ -10,20 +10,33 @@
 <!-- tester title text -->
 <h1>Burnside Sport History</h1>
 <hr>
+<h1>Featured athletes</h1>
+<!-- displaying athletes on the homepage -->
+{% for athlete in athletes %}
+    <section class="four-column">
+        <ul>
+            <a href="/player/{{ athlete['athlete_id'] }}">
+                <p>{{ athlete['sport'] }}</p>
+                <p>path: {{ athlete['athlete_id'] }}</p>
+                <p>{{ athlete['firstname'] }}</p>
+                <p>{{ athlete['lastname'] }}</p>
+            </a>
+        </ul>
+    </section>
+{% endfor %}
+
 <h1>Featured articles</h1>
 {% for article in articles %}
     <section class="two-column">
         <ul>
             <a href="/article/{{article['article_id']}}"> 
-                <img src= "{{ article['image'] }}" alt="{{ article['title']}}"> 
+                <img src= "{{ article['image_url'] }}" alt="{{ article['title']}}"> 
             </a>
         </ul>
         <ul>
             <li>
                 <h2><a href="/article/{{article['article_id']}}"> {{ article['title'] }} </a></h2>
-<!-- <p><em>Published: {{ article['published_date'] }}</em></p> -->
 <p>{{ article['content'] }}</p>
-<!-- <img src="{{ article['image_url'] }}" alt="{{ article['title'] }}"> -->
             </li>
         </ul>
     </section>

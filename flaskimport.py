@@ -21,17 +21,6 @@ def close_db(exception):
         db.close()
 
 
-def get_all_articles():
-    db = get_db()
-    cursor = db.execute("""
-        SELECT *
-        FROM article
-        ORDER BY article_id ASC
-    """)
-    articles = cursor.fetchall()
-    return articles
-
-
 # page for each article using article.html
 @app.route("/article/<int:article_id>")
 def article_page(article_id):
@@ -46,12 +35,40 @@ def article_page(article_id):
     return render_template("article.html", article=article)
 
 
+# getting the articles for display on the homepage
+def get_all_articles():
+    db = get_db()
+    cursor = db.execute("""
+        SELECT *
+        FROM article
+        ORDER BY article_id ASC
+    """)
+    articles = cursor.fetchall()
+    return articles
+
+
+# selecting 4 random athletes and their sport from the database for the homepage
+def select_random_athlete():
+    db = get_db()
+    cursor = db.execute("""
+        SELECT athlete.athlete_id, athlete.firstname, athlete.lastname, sport.sport_name
+        FROM athlete
+        JOIN athlete_sport ON athlete.athlete_id = athlete_sport.athlete_id
+        JOIN sport ON athlete_sport.sport_id = sport.sport_id
+        ORDER BY RANDOM()
+        LIMIT 4
+    """)
+    athletes = cursor.fetchall()
+    return athletes
+
+
 # homepage
 @app.route('/')
 # get the athlete's articles for hompage display
 def show_articles():
     articles = get_all_articles()
-    return render_template("home.html", articles=articles, title="Home")
+    athletes = select_random_athlete()
+    return render_template("home.html", articles=articles, title="Home", athletes=athletes)
 
 
 @app.route('/athletes')
