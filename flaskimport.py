@@ -1,9 +1,16 @@
 from flask import Flask, render_template, g, abort, request, session, url_for, redirect
 import sqlite3
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
+
 # session key
 app.secret_key = "key"
+
+plain_password = "Lizziessupersecretpassword"
+# store hashed password in database rather than the plain one
+hashed_password = generate_password_hash(plain_password)
+
 
 def get_db():
     # stores the database connection for db = get_db() 
@@ -327,16 +334,20 @@ def login():
         username = request.form['username']
         password = request.form['password']
         db = get_db()
+        # fetch user by username
         user = db.execute(
-            'SELECT * FROM user WHERE username = ? AND password = ?',
-            (username, password)
+            'SELECT * FROM user WHERE username = ?',
+            (username,)
         ).fetchone()
-        # compares the username and password input to the ones within the table
         if user:
-            session['user_id'] = user['user_id']
-            session['username'] = user['username']
-            return redirect(url_for('index'))
-        # if the username or password is not in the databas it doesn't allow login
+            # compares the username and hashed password input to the ones within the db
+            if check_password_hash(user['password'], password):
+                session['user_id'] = user['user_id']
+                session['username'] = user['username']
+                return redirect(url_for('index'))
+            # if the username or password is not in the databas it doesn't allow login
+            else:
+                error = 'Invalid username or password'
         else:
             error = 'Invalid username or password'
     return render_template('login.html', error=error)
