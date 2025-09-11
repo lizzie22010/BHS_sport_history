@@ -8,19 +8,24 @@
   <a class="active" href="/add_athlete">Admin login</a>
 </div>
 <head>
-    <meta charset="UTF-8">
     <title>Bulk Add Athletes</title>
+    <!-- Javascript function to add rows by duplicating the existing one -->
     <script>
         function addRow() {
+            // finds the row to clone
             const row = document.querySelector('.athlete-row');
+            // makes cloned row
             const clone = row.cloneNode(true);
+            // adds the new cloned row to the end of the previous row
             document.getElementById('athleteTable').appendChild(clone);
         }
     </script>
 </head>
 <body>
     <h1>Bulk Add Athletes</h1>
+    <!-- Form to add athletes in bulk -->
     <form method="POST">
+        <!-- display names for table columns -->
         <table id="athleteTable">
             <tr>
                 <th>First Name</th>
@@ -29,10 +34,12 @@
                 <th>Award</th>
                 <th>Award Year</th>
             </tr>
+            <!-- input boxes -->
             <tr class="athlete-row">
                 <td> <input name="firstname" required> </td>
                 <td> <input name="lastname" required> </td>
                 <td>
+                    <!-- dropdown for sport -->
                     <select name="sport_id" required>
                         {% for sport in sports %}
                             <option value="{{ sport.sport_id }}">{{ sport.sport_name }} ({{ sport.season }})</option>
@@ -40,6 +47,7 @@
                     </select>
                 </td>
                 <td>
+                    <!-- dropdown for award -->
                     <select name="award_id" required>
                         {% for award in awards %}
                             <option value="{{ award.award_id }}">{{ award.award_name }}</option>
@@ -49,7 +57,9 @@
                 <td><input name="award_year" type="number" required></td>
             </tr>
         </table>
+        <!-- button that uses javascript to add a new row -->
         <button type="button" onclick="addRow()">Add Another Athlete</button>
+        <!-- confirm button that takes the user to the confirmation page -->
         <button type="submit">Confirm</button>
     </form>
 </body>

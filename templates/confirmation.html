@@ -13,14 +13,17 @@
     <h1>Confirm Entries</h1>
     <hr>
     <form method="POST">
+        <!-- table for athletes to be entered into database -->
         <table border="1">
             <tr>
+                <!-- titles of columns -->
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Sport ID</th>
                 <th>Award ID</th>
                 <th>Award Year</th>
             </tr>
+            <!-- loop to run through all athletes and display them in rows -->
             {% for a in athletes %}
             <tr>
                 <td>{{ a.firstname }}</td>
@@ -32,6 +35,7 @@
             {% endfor %}
         </table>
         <br>
+        <!-- button that commits the new data into the database -->
         <button type="submit">Submit to Database</button>
     </form>
 </body>
