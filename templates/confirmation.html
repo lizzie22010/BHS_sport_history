@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block content %}
+<!-- navigation bar -->
+<div class="topnav">
+    <a href="/">Home</a>
+    <a href="/athletes">Athletes</a>
+    <a href="/award">Awards</a>
+    <a class="active" href="/add_athlete">Admin login</a>
+</div>
+    <title>Confirm Athletes</title>
+</head>
+<body>
+    <h1>Confirm Entries</h1>
+    <hr>
+    <form method="POST">
+        <table border="1">
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Sport ID</th>
+                <th>Award ID</th>
+                <th>Award Year</th>
+            </tr>
+            {% for a in athletes %}
+            <tr>
+                <td>{{ a.firstname }}</td>
+                <td>{{ a.lastname }}</td>
+                <td>{{ a.sport_id }}</td>
+                <td>{{ a.award_id }}</td>
+                <td>{{ a.award_year }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br>
+        <button type="submit">Submit to Database</button>
+    </form>
+</body>
+</html>
+{% endblock %}

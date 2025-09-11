@@ -1,8 +1,9 @@
-from flask import Flask, render_template, g, abort, request
+from flask import Flask, render_template, g, abort, request, session, url_for, redirect
 import sqlite3
 
 app = Flask(__name__)
-
+# 
+app.secret_key = "key"
 
 def get_db():
     # stores the database connection for db = get_db() 
@@ -60,7 +61,7 @@ def select_random_athlete():
     """)
     athletes = cursor.fetchall()
     return athletes
-
+ 
 
 # homepage
 @app.route('/')
@@ -254,6 +255,59 @@ def add_athlete(firstname, lastname, sport_name, award_name, award_year):
     ''', (athlete_id, award_id, award_year, athlete_id, award_id, award_year))
     db.commit()
     print("Adding athlete:", firstname, lastname)
+
+
+# My bulk input page (to make it easier to input many athletes at once)
+@app.route('/bulk_add_athlete', methods=['GET', 'POST'])
+def index():
+    db = get_db()
+    # get the sport and award names for dropdowns (will be changed in future)
+    sports = db.execute('SELECT * FROM sport').fetchall()
+    awards = db.execute('SELECT * FROM award').fetchall()
+
+    if request.method == 'POST':
+        # store the athletes in list to be added to database
+        athletes = []
+        for i in range(len(request.form.getlist('firstname'))):
+            athletes.append({
+                'firstname': request.form.getlist('firstname')[i],
+                'lastname': request.form.getlist('lastname')[i],
+                'sport_id': request.form.getlist('sport_id')[i],
+                'award_id': request.form.getlist('award_id')[i],
+                'award_year': request.form.getlist('award_year')[i]
+            })
+        session['athletes'] = athletes
+        # made confirm button link to confirmation page
+        return redirect(url_for('confirmation'))
+    return render_template('bulk_add_athlete.html', sports=sports, awards=awards)
+
+
+@app.route('/confirmation', methods=['GET', 'POST'])
+def confirmation():
+    db = get_db()
+    athletes = session.get('athletes', [])
+    print("Athletes in session:", athletes)
+    if request.method == 'POST':
+        for a in athletes:
+            cursor = db.execute(
+                'INSERT INTO athlete (firstname, lastname) VALUES (?, ?)',
+                (a['firstname'], a['lastname'])
+            )
+            athlete_id = cursor.lastrowid
+
+            db.execute(
+                'INSERT INTO athlete_sport (athlete_id, sport_id) VALUES (?, ?)',
+                (athlete_id, a['sport_id'])
+            )
+
+            db.execute(
+                'INSERT INTO athlete_award (athlete_id, award_id, award_year) VALUES (?, ?, ?)',
+                (athlete_id, a['award_id'], a['award_year'])
+            )
+        db.commit()
+        session.pop('athletes', None)
+    return render_template('confirmation.html', athletes=athletes)
+
 
 # error 404 page
 @app.errorhandler(404)
