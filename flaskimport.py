@@ -2,7 +2,7 @@ from flask import Flask, render_template, g, abort, request, session, url_for, r
 import sqlite3
 
 app = Flask(__name__)
-# 
+# session key
 app.secret_key = "key"
 
 def get_db():
@@ -143,6 +143,7 @@ def player_profile(athlete_id):
     return render_template("player.html", athlete=athlete, rows=rows, awards=awards)
 
 
+# uses the template 'award' to display a page for each award
 @app.route("/award/<int:award_id>")
 def award_page(award_id):
     db = get_db()
@@ -277,37 +278,68 @@ def index():
                 'award_year': request.form.getlist('award_year')[i]
             })
         session['athletes'] = athletes
-        # made confirm button link to confirmation page
+        # make confirm button link to confirmation page
         return redirect(url_for('confirmation'))
     return render_template('bulk_add_athlete.html', sports=sports, awards=awards)
 
 
+# Link to confirmation page that inserts athletes into database
 @app.route('/confirmation', methods=['GET', 'POST'])
 def confirmation():
     db = get_db()
+    # gets list of athletes from def index within the current session
+    # so that they can be inserted into database
     athletes = session.get('athletes', [])
-    print("Athletes in session:", athletes)
     if request.method == 'POST':
+        # loop that runs through each athlete so they all get inserted
         for a in athletes:
+            # insert athlete name into athlete table
             cursor = db.execute(
                 'INSERT INTO athlete (firstname, lastname) VALUES (?, ?)',
                 (a['firstname'], a['lastname'])
             )
             athlete_id = cursor.lastrowid
-
+            # insert athlete_sport
             db.execute(
                 'INSERT INTO athlete_sport (athlete_id, sport_id) VALUES (?, ?)',
                 (athlete_id, a['sport_id'])
             )
-
+            # insert the award(s) won by the athlete
             db.execute(
                 'INSERT INTO athlete_award (athlete_id, award_id, award_year) VALUES (?, ?, ?)',
                 (athlete_id, a['award_id'], a['award_year'])
             )
+        # commit changes to database (bc not included in def close_db)
         db.commit()
+        # clears the memory of the session
+        # if 'athletes' doesn't exist, returns None (so that it doesn't crash)
         session.pop('athletes', None)
     return render_template('confirmation.html', athletes=athletes)
 
+
+# admin login
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    error = None
+    # checks if the form was submitted
+    if request.method == 'POST':
+        # assigns variables username and password to those input by the user
+        username = request.form['username']
+        password = request.form['password']
+        db = get_db()
+        user = db.execute(
+            'SELECT * FROM user WHERE username = ? AND password = ?',
+            (username, password)
+        ).fetchone()
+        # compares the username and password input to the ones within the table
+        if user:
+            session['user_id'] = user['user_id']
+            session['username'] = user['username']
+            return redirect(url_for('index'))
+        # if the username or password is not in the databas it doesn't allow login
+        else:
+            error = 'Invalid username or password'
+    return render_template('login.html', error=error)
 
 # error 404 page
 @app.errorhandler(404)
