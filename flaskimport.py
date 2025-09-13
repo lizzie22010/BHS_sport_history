@@ -58,6 +58,8 @@ def get_all_articles():
 # selecting 4 random athletes and their sport from the database for the homepage
 def select_random_athlete():
     db = get_db()
+    # join athlete_sport on athlete, and sport in athlete_sport to return the following
+    # return athlete_id, firstname, lastname, and sport_name
     cursor = db.execute("""
         SELECT athlete.athlete_id, athlete.firstname, athlete.lastname, sport.sport_name
         FROM athlete
