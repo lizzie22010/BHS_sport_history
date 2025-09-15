@@ -30,7 +30,8 @@ h1 {
 
 h2 {
   color: rgb(0, 171, 142);
-  margin-left: 50px;
+  display: flex;
+  justify-content: center;
 }
 
 /* image styling */
@@ -40,9 +41,6 @@ img{
   border-radius: 5px;
   margin: auto;
 }
-
-
-
 
 /* link text colour and remove underline */
 a {
@@ -86,18 +84,7 @@ a:hover {
   background-color: rgba(0, 77, 65, 0.349);
 }
 
-.two-column{
-  display: grid;
-  grid-template-columns: 1fr 3fr;
-  gap: 50px;
-  width: 80%;
-  margin: auto;
-  margin-top: 40px;
-  justify-content: center;
-}
-
-
-/* HOMEPAGE STYLING */
+/* HOMEPAGE */
 .grid-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr); 
@@ -183,7 +170,8 @@ a:hover {
   display: block;
 }
 
-/* Styling for table on all_athletes.html */
+/* ATHLETES.HTML */
+/* Styling for table on athletes.html */
 table {
   width: 100%;
   border-collapse: collapse; /* Removes double borders */
@@ -203,13 +191,47 @@ thead {
   background-color: #f2f2f2;
 }
 
+
+/* HOMEPAGE */
 /* add space around the paragraph text on homepage */
 ul {
   margin: 20px;
+  padding-left: 0;
 }
-
+.two-column{
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 50px;
+  width: 80%;
+  margin: auto;
+  margin-top: 40px;
+  justify-content: center;
+}
 .readmore a {
-  color: rgb(0, 78, 66);
+  color: rgb(0, 58, 44);
   display: flex;
   justify-content: flex-end;
+}
+p.homepage {
+  color: rgb(0, 0, 0);
+}
+h3.homepage a {
+  color: rgb(0, 58, 44);
+}
+
+
+
+/* ARTICLE.HTML */
+p.article {
+  margin-left: 150px;
+  margin-right: 150px;
+  margin-bottom: 100px;
+  text-align: center;
+}
+img.article {
+  width: 500px;
+  display: block;
+  margin: auto;
+  margin-top: 40px;
+  margin-bottom: 60px;
 }

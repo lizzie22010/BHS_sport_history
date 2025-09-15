@@ -20,10 +20,11 @@
             </a>
         </ul>
         <ul>
-            
-                <h3><a href="/article/{{article['article_id']}}"> {{ article['title'] }} </a></h3>
+            <h3 class="homepage">
+                <a href="/article/{{article['article_id']}}"> {{ article['title'] }} </a>
+            </h3>
     <!-- include article content but only the first 40 words -->
-    <p>
+    <p class="homepage">
         {{ article['content'].split()[:40] | join(' ') }}
         {% if article['content'].split() | length > 30 %}...
         {% endif %}
