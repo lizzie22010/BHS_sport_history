@@ -1,17 +1,16 @@
 {% extends "layout.html" %}
 {% block content %}
-<!-- navigation bar -->
-<div class="topnav">
-  <a class="active" href="/">Home</a>
-  <a href="/athletes">Athletes</a>
-  <a href="/award">Awards</a>
-  <a href="/add_athlete">Admin login</a>
-
-</div>
-<!-- tester title text -->
-<h1>Burnside Sport History</h1>
+    <!-- navigation bar -->
+    <div class="topnav">
+    <a class="active" href="/">Home</a>
+    <a href="/athletes">Athletes</a>
+    <a href="/award">Awards</a>
+    <a href="/add_athlete">Admin login</a>
+    </div>
+    <!-- tester title text -->
+    <h1>Burnside Sport History</h1>
 <hr>
-<h1>Featured athletes</h1>
+<h2>Featured athletes</h2>
 <!-- displaying athletes on the homepage -->
 {% for athlete in athletes %}
     <section class="four-column">
@@ -26,7 +25,7 @@
     </section>
 {% endfor %}
 
-<h1>Featured articles</h1>
+<h2>Featured articles</h2>
 {% for article in articles %}
     <section class="two-column">
         <ul>

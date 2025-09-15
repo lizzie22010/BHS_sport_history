@@ -1,16 +1,41 @@
-body {
-    background-color: white;
+/* styling for all of website */
+* {
+  font-family: "Public Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal; 
 }
 
+body {
+  background-color: white;
+  color: rgb(0, 78, 66);
+  margin: 50px;
+  margin-top: 20px;
+}
+
+h1 {
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  color: rgb(0, 78, 66);
+}
+
+h2 {
+  color: rgb(0, 171, 142);
+  margin-left: 50px;
+}
+
+
+/* NAVIGATION STYLING */
 /* Add a background color to the top navigation */
 .topnav {
-    background-color: rgb(255, 255, 255);
-    overflow: hidden;
-  }
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
   
 /* Style the links inside the navigation bar */
 .topnav a {
-  font-family: "Public Sans";
   float: left;
   color: rgb(0, 78, 66);
   text-align: center;
@@ -23,7 +48,7 @@ body {
 /* Style the active tab in the navigation bar */
 .topnav a.active {
   background-color: rgb(0, 78, 66);
-  color: white;
+  color: rgb(255, 255, 255);
  }
 
 .topnav a:hover {
@@ -46,6 +71,8 @@ img{
 }
 
 
+
+/* HOMEPAGE STYLING */
 .grid-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr); 
@@ -69,7 +96,6 @@ img{
   height: auto;
   border-radius: 4px;
 }
-
 
 .dropdown-box {
   background-color: #dbdbdb;
