@@ -227,11 +227,14 @@ p.article {
   margin-right: 150px;
   margin-bottom: 100px;
   text-align: center;
+  padding: 25px;
+  border: 2px solid rgb(172, 216, 206);
+  color: black;
 }
 img.article {
   width: 500px;
   display: block;
   margin: auto;
   margin-top: 40px;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 }
