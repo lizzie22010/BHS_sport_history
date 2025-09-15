@@ -10,20 +10,6 @@
     <!-- tester title text -->
     <h1>Burnside Sport History</h1>
 <hr>
-<h2>Featured athletes</h2>
-<!-- displaying athletes on the homepage -->
-{% for athlete in athletes %}
-    <section class="four-column">
-        <ul>
-            <a href="/player/{{ athlete['athlete_id'] }}">
-                <p>{{ athlete['firstname'] }}</p>
-                <p>{{ athlete['lastname'] }}</p>
-                <p>{{ athlete['sport_name'] }}</p>
-                
-            </a>
-        </ul>
-    </section>
-{% endfor %}
 
 <h2>Featured articles</h2>
 {% for article in articles %}
@@ -34,10 +20,10 @@
             </a>
         </ul>
         <ul>
-            <li>
-                <h2><a href="/article/{{article['article_id']}}"> {{ article['title'] }} </a></h2>
+            
+                <h3><a href="/article/{{article['article_id']}}"> {{ article['title'] }} </a></h3>
 <p>{{ article['content'] }}</p>
-            </li>
+            
         </ul>
     </section>
  {% endfor %}

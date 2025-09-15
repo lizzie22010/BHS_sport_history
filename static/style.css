@@ -33,6 +33,18 @@ h2 {
   margin-left: 50px;
 }
 
+/* link text colour and remove underline */
+a {
+  color: rgb(0, 171, 142);
+  text-decoration: none;
+}
+
+/* link text colour on hover */
+a:hover {
+  color: rgb(0, 78, 66);
+  text-decoration: none;
+}
+
 
 /* NAVIGATION STYLING */
 /* Add a background color to the top navigation */
