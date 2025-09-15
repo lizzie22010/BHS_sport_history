@@ -12,20 +12,20 @@
 <body>
     <!-- display the sport played by athlete -->
     {% if rows and rows[0]["sport_name"] %}
-    <p>Sport: {{ rows[0]["sport_name"] }}</p>
+    <p class="player">{{ athlete["firstname"] }} plays {{ rows[0]["sport_name"] }}</p>
     <!-- if there is no sport in the database, return an errror msg instead of crashing  -->
     {% else %}
     <p>No sport in database</p>
     {% endif %}
 
     <!-- add athlete's award(s) and links to the awards -->
-    <p>
-        Awards won: 
+    <p class="player">
         {% for award in awards %}
             <li>
-                <a href="/award/{{ award[2] }}"> {{award["award_name"] }}</a>
+                And has won the award for
+                <a href="/award/{{ award[2] }}"> {{ award["award_name"] }}</a>
             </li>
-        {% endfor %}3
+        {% endfor %}
     </p>
 </body>
 {% endblock %}
