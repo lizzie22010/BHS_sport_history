@@ -12,7 +12,12 @@
 <hr>
 <body>
     <h2> {{ award_info["award_name"] }} </h2>
+    {% if award_info and award_info["description"] %}
     <p> {{ award_info["description"] }}</p>
+    {% else %}
+    <p>tester text</p>
+    {% endif %}
+    <p> This award has been won by: </p>
 </body>
 
 {% endblock %}
