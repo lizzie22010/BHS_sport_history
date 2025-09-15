@@ -22,8 +22,13 @@
         <ul>
             
                 <h3><a href="/article/{{article['article_id']}}"> {{ article['title'] }} </a></h3>
-<p>{{ article['content'] }}</p>
-            
+    <!-- include article content but only the first 40 words -->
+    <p>
+        {{ article['content'].split()[:40] | join(' ') }}
+        {% if article['content'].split() | length > 30 %}...
+        {% endif %}
+    </p>
+    <div class="readmore"><a href="/article/{{article['article_id']}}"> Read more ▸</a></div>  
         </ul>
     </section>
  {% endfor %}

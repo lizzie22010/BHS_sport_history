@@ -33,6 +33,17 @@ h2 {
   margin-left: 50px;
 }
 
+/* image styling */
+img{
+  display: block;
+  width: 250px;
+  border-radius: 5px;
+  margin: auto;
+}
+
+
+
+
 /* link text colour and remove underline */
 a {
   color: rgb(0, 171, 142);
@@ -82,14 +93,8 @@ a:hover {
   width: 80%;
   margin: auto;
   margin-top: 40px;
+  justify-content: center;
 }
-
-/* image styling */
-img{
-  width: 80%;
-  border-radius: 5px;
-}
-
 
 
 /* HOMEPAGE STYLING */
@@ -196,4 +201,15 @@ th, td {
 
 thead {
   background-color: #f2f2f2;
+}
+
+/* add space around the paragraph text on homepage */
+ul {
+  margin: 20px;
+}
+
+.readmore a {
+  color: rgb(0, 78, 66);
+  display: flex;
+  justify-content: flex-end;
 }
