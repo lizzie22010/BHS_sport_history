@@ -110,10 +110,23 @@ def awards():
         SELECT sport_name
         FROM sport''')
     sport_name = sport_cursor.fetchall()
-    # Get awards to be displayed
-    award_cursor = db.execute('''
-        SELECT award_name, trophy_name, description, award_id
-        FROM award''')
+    search_query = request.args.get('search', '').strip()
+
+    if search_query:
+        # If there's a search query, filter awards
+        award_cursor = db.execute('''
+            SELECT award_name, trophy_name, description, award_id
+            FROM award
+            WHERE award_name LIKE ?
+            OR trophy_name LIKE ?
+            OR description LIKE ?
+        ''', (f'%{search_query}%', f'%{search_query}%', f'%{search_query}%'))
+    else:
+        # No search query, show all awards
+        award_cursor = db.execute('''
+            SELECT award_name, trophy_name, description, award_id
+            FROM award
+        ''')
     awards = award_cursor.fetchall()
     return render_template('award.html', sport_name=sport_name, awards=awards)
 

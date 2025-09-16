@@ -26,30 +26,40 @@
       </li>
     </div>
   </div>
+  <!-- search bar to search for award or trophy name -->
+  <form method="GET" action="{{ url_for('awards') }}">
+  <!-- take user input and search database -->
+  <input type="text" name="search" placeholder="Search" value="{{ request.args.get('search', '') }}">
+  <button type="submit">Search</button>
+</form>
 </nav>
 
-
-  <!-- run through all of the awards -->
-  {% for award in awards %}
-    <div class="loop"></div>
-      <a href="/award_page/{{ award['award_id'] }}">
-        <!-- if there is a trophy name, display that as h2 and award_name as h3 -->
-        {% if award["trophy_name"] %}
-        <h2 class="award"> {{ award["trophy_name"] }} </h2>
-        <h3 class="award">{{ award["award_name"] }}</h3>
-        <!-- if there is a no trophy name, display award_name as h2 -->
-        {% else %}
-        <h2 class="award">{{ award["award_name"] }}</h2>
-        {% endif %}
-        <!-- if there is an award description, display it -->
-        {% if award["description"] %}
-        <p class="award">{{ award["description"] }}</p>
-        <!-- if there is no description, display nothing -->
-        {% else %}
-        <p> </p>
-        </div>
-        {% endif %}
-      </a>
-  {% endfor %}
-
+  <!-- loop to check if there are awards to be displayed
+   If there are none, a no results msg will be shown -->
+  {% if awards %}
+    <!-- run through all of the awards -->
+    {% for award in awards %}
+      <div class="loop"></div>
+        <a href="/award_page/{{ award['award_id'] }}">
+          <!-- if there is a trophy name, display that as h2 and award_name as h3 -->
+          {% if award["trophy_name"] %}
+          <h2 class="award"> {{ award["trophy_name"] }} </h2>
+          <h3 class="award">{{ award["award_name"] }}</h3>
+          <!-- if there is a no trophy name, display award_name as h2 -->
+          {% else %}
+          <h2 class="award">{{ award["award_name"] }}</h2>
+          {% endif %}
+          <!-- if there is an award description, display it -->
+          {% if award["description"] %}
+          <p class="award">{{ award["description"] }}</p>
+          <!-- if there is no description, display nothing -->
+          {% else %}
+          <p> </p>
+          </div>
+          {% endif %}
+        </a>
+    {% endfor %}
+  {% else %}
+    <p class="noresults">No results found.</p>
+  {% endif %}
 {% endblock %}

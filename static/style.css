@@ -264,3 +264,29 @@ h2.award {
 .loop {
   margin-top: 80px;
 }
+
+
+/* AWARD_PAGE.HTML */
+body.award_page {
+  text-align: center;
+}
+h2.award {
+  color: rgb(0, 171, 142);
+  transition: color .3s;
+}
+h2.award:hover {
+  color: rgb(0, 78, 66);
+  transition: color .15s;
+}
+p.award, h3.award {
+  color: rgb(0, 78, 66);
+  transition: color .3s;
+}
+p.award:hover, h3.award:hover{
+  color: rgb(0, 171, 142);
+  transition: color .15s;
+}
+p.noresults{
+  text-align: center;
+  margin: 100px;
+}
