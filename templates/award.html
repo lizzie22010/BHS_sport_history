@@ -19,8 +19,9 @@
       <li class="dropdown">
         <a href="#" class="dropbtn">Sports ▾</a>
         <div class="dropdown-content">
-            <a href="/replacewithsort">Archery</a>
-            <a href="/replacewithsort">Badminton</a>
+            {% for sport in sport_name %}
+            <a href="/replacewithsort">{{ sport["sport_name"] }}</a>
+            {% endfor %}
         </div>
       </li>
     </div>

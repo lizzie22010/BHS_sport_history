@@ -104,7 +104,12 @@ def get_all_athletes():
 
 @app.route("/award")
 def award():
-    return render_template('award.html')
+    db = get_db()
+    cursor = db.execute('''
+    SELECT sport_name
+    FROM sport''')
+    sport_name = cursor.fetchall()
+    return render_template('award.html', sport_name=sport_name)
 
 
 # getting the player info from database
@@ -116,7 +121,6 @@ def get_player(athlete_id):
     WHERE athlete_id = ?
     ''', (athlete_id,))
     athlete = cursor.fetchone()
-    db.close()
     return athlete
 
 
@@ -353,6 +357,7 @@ def login():
         else:
             error = 'Invalid username or password'
     return render_template('login.html', error=error)
+
 
 # error 404 page
 @app.errorhandler(404)
