@@ -273,6 +273,37 @@ h2.award {
 .loop {
   margin-top: 80px;
 }
+/* search bar container */
+.search_bar {
+  display: flex;
+  justify-content: center;
+}
+/* search bar */
+.search_bar input[type="text"] {
+  width: 300px;
+  padding: 10px 15px;
+  border: 2px solid rgb(0, 58, 44);
+  border-right: none;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+/* search button */
+.search_bar button {
+  padding: 10px 15px;
+  border: 2px solid rgb(0, 58, 44);
+  background-color: rgb(0, 58, 44);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 0 5px 5px 0;
+  transition: background-color 0.3s;
+}
+/* search button on hover */
+.search_bar button:hover {
+  background-color: rgb(0, 171, 142);
+}
 
 
 /* AWARD_PAGE.HTML */

@@ -27,9 +27,9 @@
     </div>
   </div>
   <!-- search bar to search for award or trophy name -->
-  <form method="GET" action="{{ url_for('awards') }}">
+  <form method="GET" action="{{ url_for('awards') }}" class="search_bar">
   <!-- take user input and search database -->
-  <input type="text" name="search" placeholder="Search" value="{{ request.args.get('search', '') }}">
+  <input type="text" name="search" placeholder="Search awards..." value="{{ request.args.get('search', '') }}">
   <button type="submit">Search</button>
 </form>
 </nav>
