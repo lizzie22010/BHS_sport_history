@@ -30,8 +30,7 @@ h1 {
 
 h2 {
   color: rgb(0, 171, 142);
-  display: flex;
-  justify-content: center;
+  text-align: center;
 }
 
 /* image styling */
@@ -254,4 +253,14 @@ li {
 
 
 
-/* AWARD */
+/* AWARD.HTML */
+h2.award {
+  text-align: left;
+}
+.award {
+  margin-left: 300px;
+  margin-right: 300px;
+}
+.loop {
+  margin-top: 80px;
+}

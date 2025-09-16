@@ -28,34 +28,28 @@
   </div>
 </nav>
 
-<!-- run through all of the awards -->
-{% for award in awards %}
-<!-- if there is a trophy name, display that as h2 and award_name as h3 -->
-  {% if award["trophy_name"] %}
-  <h2>
-    {{ award["trophy_name"] }}
-  </h2>
-  <h3>
-    {{ award["award_name"] }}
-  </h3>
-  <p>
-    {{ award["description"] }}
-  </p>
-<!-- if there is a no trophy name, display award_name as h2 -->
-  {% else %}
-  <h2>
-    {{ award["award_name"] }}
-  </h2>
-  {% endif %}
-  <!-- if there is an award description, display it -->
-  {% if award["description"] %}
-  <p>
-    {{ award["description"] }}
-  </p>
-  <!-- if there is no description, display nothing -->
-  {% else %}
-  <p> </p>
-  {% endif %}
-{% endfor %}
+
+  <!-- run through all of the awards -->
+  {% for award in awards %}
+    <div class="loop"></div>
+      <a href="/award_page/{{ award['award_id'] }}">
+        <!-- if there is a trophy name, display that as h2 and award_name as h3 -->
+        {% if award["trophy_name"] %}
+        <h2 class="award"> {{ award["trophy_name"] }} </h2>
+        <h3 class="award">{{ award["award_name"] }}</h3>
+        <!-- if there is a no trophy name, display award_name as h2 -->
+        {% else %}
+        <h2 class="award">{{ award["award_name"] }}</h2>
+        {% endif %}
+        <!-- if there is an award description, display it -->
+        {% if award["description"] %}
+        <p class="award">{{ award["description"] }}</p>
+        <!-- if there is no description, display nothing -->
+        {% else %}
+        <p> </p>
+        </div>
+        {% endif %}
+      </a>
+  {% endfor %}
 
 {% endblock %}

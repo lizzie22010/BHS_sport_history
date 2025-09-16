@@ -112,7 +112,7 @@ def awards():
     sport_name = sport_cursor.fetchall()
     # Get awards to be displayed
     award_cursor = db.execute('''
-        SELECT award_name, trophy_name, description
+        SELECT award_name, trophy_name, description, award_id
         FROM award''')
     awards = award_cursor.fetchall()
     return render_template('award.html', sport_name=sport_name, awards=awards)
@@ -162,19 +162,16 @@ def player_profile(athlete_id):
     return render_template("player.html", athlete=athlete, rows=rows, awards=awards)
 
 
-# uses the template 'award' to display a page for each award
-@app.route("/award/<int:award_id>")
-def award_page(award_id):
+# award_page.html app route
+@app.route("/award_page/<int:award_id>")
+def get_award_info(award_id):
     db = get_db()
     cursor = db.execute('''
-        SELECT award_name, trophy_name, description, award_id
-        FROM award
-        WHERE award_id = ?''',
-        (award_id,))
+    SELECT *
+    FROM award
+    WHERE award_id = ?
+    ''', (award_id,))
     award_info = cursor.fetchone()
-# if there is no award of that id then abort(404)
-    if not award_info:
-        abort(404)
     return render_template("award_page.html", award_info=award_info)
 
 

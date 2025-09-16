@@ -8,16 +8,22 @@
   <a href="/add_athlete">Admin login</a>
 </div>
 <!-- title text -->
-<h1> {{ award_info["trophy_name"] }} </h1>
-<hr>
+{% if award_info["trophy_name"] %}
+  <h1> {{ award_info["trophy_name"] }} </h1>
+  <hr>
+  <h2> {{ award_info["award_name"] }} </h2>
+  <!-- if there is a no trophy name, display award_name as h2 -->
+  {% else %}
+  <h1>{{ award_info["award_name"] }}</h1>
+  <hr>
+  {% endif %}
 <body>
-    <h2> {{ award_info["award_name"] }} </h2>
-    {% if award_info and award_info["description"] %}
-    <p> {{ award_info["description"] }}</p>
-    {% else %}
-    <p>tester text</p>
-    {% endif %}
-    <p> This award has been won by: </p>
+  {% if award_info and award_info["description"] %}
+  <p> Description: <br>{{ award_info["description"] }}</p>
+  {% else %}
+  <p></p>
+  {% endif %}
+  <p> This award has been won by: </p>
 </body>
 
 {% endblock %}
