@@ -103,13 +103,19 @@ def get_all_athletes():
 
 
 @app.route("/award")
-def award():
+def awards():
     db = get_db()
-    cursor = db.execute('''
-    SELECT sport_name
-    FROM sport''')
-    sport_name = cursor.fetchall()
-    return render_template('award.html', sport_name=sport_name)
+    # get sport for dropdown sort box
+    sport_cursor = db.execute('''
+        SELECT sport_name
+        FROM sport''')
+    sport_name = sport_cursor.fetchall()
+    # Get awards to be displayed
+    award_cursor = db.execute('''
+        SELECT award_name, trophy_name, description
+        FROM award''')
+    awards = award_cursor.fetchall()
+    return render_template('award.html', sport_name=sport_name, awards=awards)
 
 
 # getting the player info from database

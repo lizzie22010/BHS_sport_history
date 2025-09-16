@@ -28,71 +28,34 @@
   </div>
 </nav>
 
-<!-- Here are the awards with images -->
-<div class="grid-container">
-  <div class="grid-item">
-  </div>
-  <div class="grid-item">
-    <img src="./static/images/placeholder-1-e1533569576673-960x960.png" alt="Image 2">
-    <p>Text 2</p>
-  </div>
-  <div class="grid-item">
-    <img src="./static/images/placeholder-1-e1533569576673-960x960.png" alt="Image 3">
-    <p>Text 3</p>
-  </div>
-  <div class="grid-item">
-    <img src="./static/images/placeholder-1-e1533569576673-960x960.png" alt="Image 4">
-    <p>Text 4</p>
-  </div>
-  <div class="grid-item">
-    <img src="./static/images/placeholder-1-e1533569576673-960x960.png" alt="Image 1">
-    <p>Text 5</p>
-  </div>
-  <div class="grid-item">
-    <img src="./static/images/placeholder-1-e1533569576673-960x960.png" alt="Image 2">
-    <p>Text 6</p>
-  </div>
-  <div class="grid-item">
-    <img src="./static/images/placeholder-1-e1533569576673-960x960.png" alt="Image 3">
-    <p>Text 7</p>
-  </div>
-  <div class="grid-item">
-    <img src="./static/images/placeholder-1-e1533569576673-960x960.png" alt="Image 4">
-    <p>Text 8</p>
-  </div>
-  <div class="grid-item">
-    <img src="./static/images/placeholder-1-e1533569576673-960x960.png" alt="Image 4">
-    <p>Text 9</p>
-  </div>
-  <div class="grid-item">
-    <img src="./static/images/placeholder-1-e1533569576673-960x960.png" alt="Image 1">
-    <p>Text 10</p>
-  </div>
-  <div class="grid-item">
-    <img src="./static/images/placeholder-1-e1533569576673-960x960.png" alt="Image 2">
-    <p>Text 11</p>
-  </div>
-  <div class="grid-item">
-    <img src="./static/images/placeholder-1-e1533569576673-960x960.png" alt="Image 3">
-    <p>Text 12</p>
-  </div>
-  <div class="grid-item">
-    <img src="./static/images/placeholder-1-e1533569576673-960x960.png" alt="Image 4">
-    <p>Text 13</p>
-  </div>
-  <div class="grid-item">
-    <img src="./static/images/placeholder-1-e1533569576673-960x960.png" alt="Image 2">
-    <p>Text 14</p>
-  </div>
-  <div class="grid-item">
-    <img src="./static/images/placeholder-1-e1533569576673-960x960.png" alt="Image 3">
-    <p>Text 15</p>
-  </div>
-  <div class="grid-item">
-    <img src="./static/images/placeholder-1-e1533569576673-960x960.png" alt="Image 4">
-    <p>Text 16</p>
-  </div>
-  <!-- Add more grid-item divs to make new rows -->
-</div>
+<!-- run through all of the awards -->
+{% for award in awards %}
+<!-- if there is a trophy name, display that as h2 and award_name as h3 -->
+  {% if award["trophy_name"] %}
+  <h2>
+    {{ award["trophy_name"] }}
+  </h2>
+  <h3>
+    {{ award["award_name"] }}
+  </h3>
+  <p>
+    {{ award["description"] }}
+  </p>
+<!-- if there is a no trophy name, display award_name as h2 -->
+  {% else %}
+  <h2>
+    {{ award["award_name"] }}
+  </h2>
+  {% endif %}
+  <!-- if there is an award description, display it -->
+  {% if award["description"] %}
+  <p>
+    {{ award["description"] }}
+  </p>
+  <!-- if there is no description, display nothing -->
+  {% else %}
+  <p> </p>
+  {% endif %}
+{% endfor %}
 
 {% endblock %}
