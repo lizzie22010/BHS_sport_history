@@ -1,47 +1,24 @@
 {% extends "layout.html" %}
 {% block content %}
-<!-- navigation bar -->
-<div class="topnav">
-  <a href="/">Home</a>
-  <a class="active" href="/athletes">Athletes</a>
-  <a href="/award">Awards</a>
-  <a href="/add_athlete">Admin login</a>
+  <!-- navigation bar -->
+  <div class="topnav">
+    <a href="/">Home</a>
+    <a class="active" href="/athletes">Athletes</a>
+    <a href="/award">Awards</a>
+    <a href="/add_athlete">Admin login</a>
 
-</div>
+  </div>
 
-<!-- tester title text -->
-<h1>Athletes</h1>
-<hr>
-  <h2>ALL ATHLETES</h2>
-<div class="table">
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>placeholder</th>
-      </tr>
-    </thead>
-  </table>
-  <table>
-  {# Jinja loop #}
-  {% for athlete in athletes %}
-    <tbody>
-        <tr>
-        <td>
-          <a href="player/{{ athlete[0] }}">{{ athlete[0] }}</a>
-        </td>
-        <td>
-          <a href="player/{{ athlete[0] }}">{{ athlete[1]}} {{ athlete[2] }}</a>
-        </td>
-        <td>
-          <a href="player/{{ athlete[0] }}">{{ athlete[3] }}</a> 
-          <!-- change this to link to form class -->
-        </td>
-      </tr>
-    </tbody>
-  {% endfor %}
-  </table>
-</div>
-
+  <!-- tester title text -->
+  <h1>Athletes</h1>
+  <hr>
+    {% for athlete in athletes %}
+  <div class="athlete-block">
+    <!-- Name -->
+    <h2>{{ athlete.firstname }} {{ athlete.lastname }}</h2>
+    {% for sport in sports %}
+    <h3>{{ sport["sport_name"] }}</h3>
+    {% endfor %}
+  </div>
+{% endfor %}
 {% endblock %}

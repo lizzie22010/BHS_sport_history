@@ -12,18 +12,18 @@
 <body>
     <!-- display the sport played by athlete -->
     {% if rows and rows[0]["sport_name"] %}
-    <p class="player">{{ athlete["firstname"] }} plays {{ rows[0]["sport_name"] }}</p>
+    <p class="player">{{ athlete["firstname"] }}'s sport is {{ rows[0]["sport_name"] }}</p>
     <!-- if there is no sport in the database, return an errror msg instead of crashing  -->
     {% else %}
-    <p>No sport in database</p>
+    <p>Athlete's sport is unknown.</p>
     {% endif %}
 
     <!-- add athlete's award(s) and links to the awards -->
     <p class="player">
-        {% for award in awards %}
+        
+            And has won the award for{% for award in awards %}
             <li>
-                And has won the award for
-                <a href="/award/{{ award[2] }}"> {{ award["award_name"] }}</a>
+                <a class="player" href="/award/{{ award[2] }}"> {{ award["award_name"] }}</a>
             </li>
         {% endfor %}
     </p>
