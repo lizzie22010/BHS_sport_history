@@ -21,7 +21,7 @@
     <!-- add athlete's award(s) and links to the awards -->
     <p class="player">
         
-            And has won the award for{% for award in awards %}
+            {{ athlete["firstname"] }} has won the award for{% for award in awards %}
             <li>
                 <a class="player" href="/award/{{ award[2] }}"> {{ award["award_name"] }}</a>
             </li>

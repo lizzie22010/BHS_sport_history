@@ -93,17 +93,8 @@ def fetch_all_athletes():
     
 @app.route('/athletes')
 def athletes():
-    db = get_db()
-    cursor = db.execute('''
-        SELECT athlete.firstname, athlete.lastname, sport.sport_name
-        FROM athlete
-        JOIN athlete_sport ON athlete.athlete_id = athlete_sport.athlete_id
-        JOIN sport ON athlete_sport.sport_id = sport.sport_id
-        WHERE athlete.athlete_id = ?
-                        ''')
-    sports = cursor.fetchall()
     athletes = fetch_all_athletes()
-    return render_template('athletes.html', athletes=athletes, sports=sports)
+    return render_template('athletes.html', athletes=athletes)
 
 
 @app.route("/award")
