@@ -14,18 +14,6 @@
 
 <!-- here is where the dropdown sport menu will go -->
 <nav class="dropdown-box">
-  <div class="drop-container">
-    <div class="drop-links">
-      <li class="dropdown">
-        <a href="#" class="dropbtn">Sports ▾</a>
-        <div class="dropdown-content">
-            {% for sport in sport_name %}
-            <a href="/replacewithsort">{{ sport["sport_name"] }}</a>
-            {% endfor %}
-        </div>
-      </li>
-    </div>
-  </div>
   <!-- search bar to search for award or trophy name -->
   <form method="GET" action="{{ url_for('awards') }}" class="search_bar">
   <!-- take user input and search database -->

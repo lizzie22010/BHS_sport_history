@@ -109,65 +109,11 @@ a:hover {
 }
 
 .dropdown-box {
-  background-color: #dbdbdb;
+  background-color: #dbdbdb38;
   padding: 10px 0;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-  border-top: 2px solid rgb(255, 255, 255);
-  border-left: 2px rgb(255, 255, 255) solid;
-  border-right: 2px rgb(255, 255, 255) solid;
-  position: sticky;
-  top: 0;
+  border-radius: 5px;
 }
 
-.drop-container {
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 10px;
-}
-
-.drop-links {
-  list-style: none;
-  display: flex;
-  gap: 20px;
-}
-
-.drop-links li {
-  position: relative;
-}
-
-/* Dropdown Menu Container */
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #EDE8D0;
-  min-width: 160px;
-  top: 100%;
-  left: 0;
-  border: 2px solid rgb(199, 199, 199);
-  border-radius: 8px;
-}
-
-.dropdown-content a {
-  padding: 10px;
-  font-size: 15px;
-  color: grey;
-  text-decoration: none;
-  display: block;
-  transition: background-color 0.3s ease;
-}
-
-.dropdown-content a:hover {
-  background-color: #f5f1df;
-  color: rgb(197, 197, 197);
-}
-
-/* Show dropdown on hover */
-.dropdown:hover .dropdown-content {
-  display: block;
-}
 
 /* ATHLETES.HTML */
 /* Styling for table on athletes.html */
