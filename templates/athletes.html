@@ -12,13 +12,17 @@
   <!-- tester title text -->
   <h1>Athletes</h1>
   <hr>
+  <div class="three_column">
     {% for athlete in athletes %}
-  <div class="athlete-block">
-    <!-- Name -->
-    <h2>{{ athlete.firstname }} {{ athlete.lastname }}</h2>
-    {% for sport in sports %}
-    <h3>{{ sport["sport_name"] }}</h3>
-    {% endfor %}
-  </div>
+      <div class="card">
+        <a href="player/{{ athlete[0] }}"></a>
+          <!-- Name -->
+          <h2>{{ athlete.firstname }} {{ athlete.lastname }}</h2>
+          {% for sport in athlete.sports %}
+          <h3>{{ sport["sport_name"] }}</h3>
+        </a>
+      </div>
+  {% endfor %}
+</div>
 {% endfor %}
 {% endblock %}
