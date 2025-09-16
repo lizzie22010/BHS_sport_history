@@ -108,7 +108,7 @@ a:hover {
   border-radius: 4px;
 }
 
-.dropdown-box {
+.search_bar_box {
   background-color: #dbdbdb38;
   padding: 10px 0;
   border-radius: 5px;
@@ -120,9 +120,15 @@ a:hover {
 .three_column {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  padding-top: 50px;
+  padding-left: 200px;
+  padding-right: 200px;
 }
 .card {
   display: block; 
+}
+h2.athletes {
+  margin: 10px;
 }
 
 
@@ -264,4 +270,18 @@ p.award:hover, h3.award:hover{
 p.noresults{
   text-align: center;
   margin: 100px;
+}
+
+
+/* 404.HTML */
+body.errorpage {
+  font-family: sans-serif;
+  text-align: center;
+}
+h1.errorpage {
+  font-size: 80px; 
+  color: rgb(0, 171, 142);
+}
+p.errorpage {
+  font-size: 30px;
 }

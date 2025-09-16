@@ -84,13 +84,14 @@ def show_articles():
 # def to be used in app route /athletes and /all_athletes
 def fetch_all_athletes():
     db = get_db()
-# get all athletes for the all_athletes list 
+# get all athletes for the all_athletes list
     cursor = db.execute('''
         SELECT *
         FROM athlete''')
     athletes = cursor.fetchall()
     return athletes
-    
+
+
 @app.route('/athletes')
 def athletes():
     athletes = fetch_all_athletes()

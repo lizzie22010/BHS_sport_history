@@ -1,33 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "layout.html" %}
+{% block content %}
 <div class="topnav">
     <a href="/">Home</a>
     <a href="/athletes">Athletes</a>
     <a href="/award">Awards</a>
     <a href="/add_athlete">Admin login</a>
 </div>
-<head>
+<head class="errorpage">
     <meta charset="UTF-8">
     <title>Page Not Found</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <style>
-        body {
-            font-family: sans-serif;
-            background-color: #f3f3f3;
-            text-align: center;
-        }
-        h1 {
-            font-size: 80px; 
-            color: #e74c3c;
-        }
-        p {
-            font-size: 30px;
-        }
-    </style>
 </head>
-<body>
-    <h1>404</h1>
-    <p>Oops! That page doesn’t exist.</p>
+<body class="errorpage">
+    <hr>
+    <h1 class="errorpage">404</h1>
+    <p class="errorpage">Oops! That page doesn’t exist.</p>
     <a href="/">Return to Home</a>
 </body>
 </html>
+
+{% endblock %}

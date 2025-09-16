@@ -1,28 +1,39 @@
 {% extends "layout.html" %}
 {% block content %}
-  <!-- navigation bar -->
-  <div class="topnav">
-    <a href="/">Home</a>
-    <a class="active" href="/athletes">Athletes</a>
-    <a href="/award">Awards</a>
-    <a href="/add_athlete">Admin login</a>
+<!-- navigation bar -->
+<div class="topnav">
+  <a href="/">Home</a>
+  <a class="active" href="/athletes">Athletes</a>
+  <a href="/award">Awards</a>
+  <a href="/add_athlete">Admin login</a>
 
-  </div>
+</div>
 
-  <!-- tester title text -->
-  <h1>Athletes</h1>
-  <hr>
-  <div class="three_column">
-    {% for athlete in athletes %}
-      <div class="card">
-        <a href="player/{{ athlete[0] }}"></a>
-          <!-- Name -->
-          <h2>{{ athlete.firstname }} {{ athlete.lastname }}</h2>
-          {% for sport in athlete.sports %}
-          <h3>{{ sport["sport_name"] }}</h3>
-        </a>
-      </div>
+<h1>Athletes</h1>
+<hr>
+
+<nav class="search_bar_box">
+  <!-- search bar to search for award or trophy name -->
+  <form method="GET" action="{{ url_for('athletes') }}" class="search_bar">
+  <!-- take user input and search database -->
+  <input type="text" name="search" placeholder="Search athletes..." value="{{ request.args.get('search', '') }}">
+  <button type="submit">Search</button>
+</form>
+</nav>
+
+<!-- three column grid -->
+<div class="three_column">
+  <!-- loop that gets info for all athletes -->
+  {% for athlete in athletes %}
+    <div class="card">
+      <a href="player/{{ athlete['athlete_id'] }}" class="athletes">
+        <!-- Name -->
+          <h2 class="athletes">{{ athlete.firstname }} {{ athlete.lastname }}</h2>
+        {% for sport in athlete.sports %}
+          <h3 class="athletes">{{ sport["sport_name"] }}</h3>
+        {% endfor %}
+      </a>
+    </div>
   {% endfor %}
 </div>
-{% endfor %}
 {% endblock %}
