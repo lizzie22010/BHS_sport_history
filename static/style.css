@@ -210,14 +210,23 @@ ul {
   color: rgb(0, 58, 44);
   display: flex;
   justify-content: flex-end;
+  transition: color .3s;
+}
+.readmore a:hover {
+  color: rgb(0, 171, 142);
+  transition: color .15s;
 }
 p.homepage {
   color: rgb(0, 0, 0);
 }
 h3.homepage a {
-  color: rgb(0, 58, 44);
+  color: rgb(0, 78, 66);
+  transition: color .3s;
 }
-
+h3.homepage a:hover {
+  color: rgb(0, 171, 142);
+  transition: color .15s;
+}
 
 
 /* ARTICLE.HTML */
