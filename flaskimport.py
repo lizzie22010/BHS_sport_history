@@ -186,10 +186,22 @@ def player_profile(athlete_id):
     return render_template("player.html", athlete=athlete, rows=rows, awards=awards)
 
 
+def award_title(award_id):
+    db = get_db()
+    cursor = db.execute('''
+    SELECT award_name, trophy_name, description
+    FROM award
+    WHERE award_id = ?
+    ''', (award_id,))
+    award_title = cursor.fetchone()
+    return award_title
+
+
 # award_page.html app route
 @app.route("/award_page/<int:award_id>")
 def athlete_award_info(award_id):
     db = get_db()
+    # get the athletes that have won that award
     cursor = db.execute('''
     SELECT
         athlete.firstname,
@@ -200,7 +212,12 @@ def athlete_award_info(award_id):
     WHERE award.award_id = ?
     ''', (award_id,))
     award_info = cursor.fetchall()
-    return render_template("award_page.html", award_info=award_info)
+    # split athletes into first 10 and the rest (for the "show more")
+    first_10 = award_info[:10]
+    remaining_athletes = award_info[10:]
+    # get the name and trophy name of the award
+    title = award_title(award_id)
+    return render_template("award_page.html", award_info=award_info, title=title, first_10=first_10, remaining_athletes=remaining_athletes)
 
 
 

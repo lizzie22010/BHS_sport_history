@@ -8,25 +8,43 @@
   <a href="/add_athlete">Admin login</a>
 </div>
 <!-- title text -->
-{% if award_info["trophy_name"] %}
-  <h1> {{ award_info["trophy_name"] }} </h1>
+{% if title["trophy_name"] %}
+  <h1> {{ title["trophy_name"] }} </h1>
   <hr>
-  <h2> {{ award_info["award_name"] }} </h2>
+
+  <h2> {{ title["award_name"] }} </h2>
   <!-- if there is a no trophy name, display award_name as h2 -->
   {% else %}
-  <h1>{{ award_info["award_name"] }}</h1>
+  <h1>{{ title["award_name"] }}</h1>
   <hr>
   {% endif %}
+
 <body class="award_page">
-  {% if award_info and award_info["description"] %}
-  <p> Description: <br>{{ award_info["description"] }}</p>
+
+  <!-- if there is a description, show that -->
+  {% if title and title["description"] %}
+  <p> Description: <br>{{ title["description"] }}</p>
   {% else %}
   <p></p>
   {% endif %}
-  <p> This award has been won by: </p>
-  {% for athlete in award_info %}
+
+  <!-- show who the award has been won by -->
+  <h3> This award has been won by: </h3>
+  {% set total_athletes = award_info|length %}
+  {% for athlete in first_10 %}
     <p>{{ athlete["firstname"] }} {{ athlete["lastname"] }}</p>
   {% endfor %}
+
+  <!-- show more link for when there are more than 10 athletes -->
+  {% if remaining_athletes %}
+    <p id="show-more">Show more</p>
+  {% endif %}
+
+  <!-- message for when there are more than 10 athletes to display -->
+  {% for athlete in remaining_athletes %}
+    <p>{{ athlete["firstname"] }} {{ athlete["lastname"] }}</p>
+  {% endfor %}
+
 </body>
 
 {% endblock %}
