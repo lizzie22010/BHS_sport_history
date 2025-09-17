@@ -400,35 +400,6 @@ def confirmation():
     return render_template('confirmation.html', athletes=athletes)
 
 
-# admin login
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    error = None
-    # checks if the form was submitted
-    if request.method == 'POST':
-        # assigns variables username and password to those input by the user
-        username = request.form['username']
-        password = request.form['password']
-        db = get_db()
-        # fetch user by username
-        user = db.execute(
-            'SELECT * FROM user WHERE username = ?',
-            (username,)
-        ).fetchone()
-        if user:
-            # compares the username and hashed password input to the ones within the db
-            if check_password_hash(user['password'], password):
-                session['user_id'] = user['user_id']
-                session['username'] = user['username']
-                return redirect(url_for('index'))
-            # if the username or password is not in the databas it doesn't allow login
-            else:
-                error = 'Invalid username or password'
-        else:
-            error = 'Invalid username or password'
-    return render_template('login.html', error=error)
-
-
 # error 404 page
 @app.errorhandler(404)
 def page_not_found(e):
