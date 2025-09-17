@@ -1,15 +1,13 @@
-from flask import Flask, render_template, g, abort, request, session, url_for, redirect
+from flask import Flask, render_template, g, abort, request, session, url_for, redirect, flash
 import sqlite3
-from werkzeug.security import generate_password_hash, check_password_hash
+
 
 app = Flask(__name__)
 
-# session key
-app.secret_key = "key"
 
-plain_password = "Lizziessupersecretpassword"
-# store hashed password in database rather than the plain one
-hashed_password = generate_password_hash(plain_password)
+app.secret_key = 'key'  # secure key to manage the session
+# hardcoded password
+PASSWORD = "Lizziessupersecretpassword123"
 
 
 def get_db():
@@ -201,9 +199,9 @@ def award_title(award_id):
 @app.route("/award_page/<int:award_id>")
 def athlete_award_info(award_id):
     db = get_db()
-    # get the athletes that have won that award
     cursor = db.execute('''
     SELECT
+        athlete.athlete_id,
         athlete.firstname,
         athlete.lastname
     FROM award
@@ -212,17 +210,15 @@ def athlete_award_info(award_id):
     WHERE award.award_id = ?
     ''', (award_id,))
     award_info = cursor.fetchall()
-    # split athletes into first 10 and the rest (for the "show more")
-    first_10 = award_info[:10]
-    remaining_athletes = award_info[10:]
-    # get the name and trophy name of the award
     title = award_title(award_id)
-    return render_template("award_page.html", award_info=award_info, title=title, first_10=first_10, remaining_athletes=remaining_athletes)
-
+    return render_template("award_page.html", award_info=award_info, title=title)
 
 
 @app.route("/add_athlete", methods=['GET', 'POST'])
 def add_athlete_page():
+    # check whether the user is logged in
+    if 'logged_in' not in session or not session['logged_in']:
+        return redirect(url_for('login_page'))
     db = get_db()
     cursor = db.cursor()
     # gets options for sport dropdown
@@ -253,7 +249,32 @@ def add_athlete_page():
             message = f"Athlete '{firstname} {lastname}' added successfully."
         except Exception as e:
             message = f"Error: {str(e)}"
+            # Redirect to login if the user is not logged in
+    if 'logged_in' not in session or not session['logged_in']:
+        return redirect(url_for('login'))
     return render_template( 'add_athlete.html', sports=sports, awards=awards, message=message)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login_page():
+    if request.method == 'POST':
+        password = request.form['password']
+        # check password
+        if password == PASSWORD:
+            session['logged_in'] = True
+            return redirect(url_for('add_athlete_page'))
+        # if password is wrong
+        else:
+            flash("Incorrect password. Please try again.")
+    return render_template('login.html')
+
+
+@app.route('/logout', methods=['POST'])
+def logout():
+    # clear the session to log out
+    session.pop('logged_in', None)
+    # after logging out, redirect to login page
+    return redirect(url_for('login_page'))
 
 
 # def for form to insert athletes and their awards into the database

@@ -10,13 +10,13 @@
 <h1>Add New Athlete</h1>
 <hr>
 <!-- form for adding an athlete -->
-<form method="POST" action="/add_athlete">
+<form class="add_athlete" method="POST" action="/add_athlete">
 
 <!-- textboxes for the user to input first and last name -->
   <label for="firstname">First Name:</label><br>
-  <input type="text" id="firstname" name="firstname" required><br><br>
+  <input type="text" id="firstname" name="firstname" maxlength="50" required><br><br>
   <label for="lastname">Last Name:</label><br>
-  <input type="text" id="lastname" name="lastname" required><br><br>
+  <input type="text" id="lastname" name="lastname" maxlength="50" required><br><br>
 
 <!-- dropdown box for user to select sport -->
   <label for="sport">Sport:</label><br>
@@ -36,7 +36,7 @@
 
 <!-- box for the input of tha award year -->
   <label for="award_year">Award Year:</label><br>
-  <input type="number" id="award_year" name="award_year" required><br><br>
+  <input type="number" id="award_year" name="award_year" maxlength="50" required><br><br>
 
 <!-- submit button for the new athlete to be committed into the database -->
   <input type="submit" value="Add Athlete">
@@ -45,4 +45,9 @@
 {% if message %}
   <p><strong>{{ message }}</strong></p>
 {% endif %}
+
+<form action="{{ url_for('logout') }}" method="POST">
+    <button type="submit">Logout</button>
+</form>
+
 {% endblock %}

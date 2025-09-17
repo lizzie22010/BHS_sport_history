@@ -7,44 +7,32 @@
   <a class="active" href="/award">Awards</a>
   <a href="/add_athlete">Admin login</a>
 </div>
+
 <!-- title text -->
 {% if title["trophy_name"] %}
   <h1> {{ title["trophy_name"] }} </h1>
   <hr>
-
   <h2> {{ title["award_name"] }} </h2>
   <!-- if there is a no trophy name, display award_name as h2 -->
   {% else %}
-  <h1>{{ title["award_name"] }}</h1>
-  <hr>
+    <h1>{{ title["award_name"] }}</h1>
+    <hr>
   {% endif %}
 
-<body class="award_page">
 
-  <!-- if there is a description, show that -->
+  <!-- description for the award -->
   {% if title and title["description"] %}
-  <p> Description: <br>{{ title["description"] }}</p>
+    <p> Description: <br>{{ title["description"] }}</p>
   {% else %}
-  <p></p>
+    <p></p>
   {% endif %}
 
-  <!-- show who the award has been won by -->
-  <h3> This award has been won by: </h3>
-  {% set total_athletes = award_info|length %}
-  {% for athlete in first_10 %}
-    <p>{{ athlete["firstname"] }} {{ athlete["lastname"] }}</p>
-  {% endfor %}
-
-  <!-- show more link for when there are more than 10 athletes -->
-  {% if remaining_athletes %}
-    <p id="show-more">Show more</p>
-  {% endif %}
-
-  <!-- message for when there are more than 10 athletes to display -->
-  {% for athlete in remaining_athletes %}
-    <p>{{ athlete["firstname"] }} {{ athlete["lastname"] }}</p>
-  {% endfor %}
-
-</body>
+  <body class="award_page">
+    <!-- show all of the athletes that have won this award -->
+    <h3>This award has been won by:</h3>
+    {% for athlete in award_info %}
+      <a class="award_page" href="/player/{{ athlete['athlete_id'] }}">{{ athlete["firstname"] }} {{ athlete["lastname"] }}</a>
+    {% endfor %}
+  </body>
 
 {% endblock %}

@@ -9,7 +9,7 @@
 </div>
 <h1>Athlete profile - {{ athlete["firstname"] }} {{ athlete["lastname"] }} </h1>
 <hr>
-<body>
+<body class="player">
     <!-- display the sport played by athlete -->
     {% if rows and rows[0]["sport_name"] %}
     <p class="player">{{ athlete["firstname"] }}'s sport is {{ rows[0]["sport_name"] }}</p>
@@ -21,7 +21,7 @@
     <!-- add athlete's award(s) and links to the awards -->
     <p class="player">
         
-            {{ athlete["firstname"] }} has won the award for{% for award in awards %}
+        {{ athlete["firstname"] }} has won the award for{% for award in awards %}
             <li>
                 <a class="player" href="/award_page/{{ award[2] }}"> {{ award["award_name"] }}</a>
             </li>

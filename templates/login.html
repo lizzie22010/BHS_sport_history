@@ -8,23 +8,27 @@
   <a class="active" href="/add_athlete">Admin login</a>
 </div>
 <head>
-    <title>Login</title>
+    <h1>Login</h1>
+    <hr>
 </head>
 <body>
-<h2>Login</h2>
-<!-- login form -->
-<form method="post">
-    <label>Username:</label><br>
-    <input type="text" name="username" required><br><br>
-    <label>Password:</label><br>
-    <input type="password" name="password" required><br><br>
-    <button type="submit">Login</button>
-</form>
+    <!-- ask for password -->
+    <h2>Enter the admin password to add athletes into the database:</h2>
+    <form class="login" method="POST">
+        <input type="password" name="password" maxlength="50" placeholder="Password" required>
+        <button type="submit">Submit</button>
+    </form>
 
-{% if error %}
-    <p style="color:red">{{ error }}</p>
-{% endif %}
-
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+            <!-- loop through each flashed message and display it -->
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
 </body>
 </html>
 {% endblock %}

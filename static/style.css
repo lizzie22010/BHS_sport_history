@@ -205,6 +205,9 @@ li {
   list-style-type: none;
   text-align: center;
 }
+body.player {
+  vertical-align: middle;
+}
 
 
 
@@ -255,6 +258,7 @@ h2.award {
 /* AWARD_PAGE.HTML */
 body.award_page {
   text-align: center;
+  padding-bottom: auto;
 }
 h2.award {
   color: rgb(0, 171, 142);
@@ -264,7 +268,7 @@ h2.award:hover {
   color: rgb(0, 78, 66);
   transition: color .15s;
 }
-p.award, h3.award {
+p.award, h3.award, a.award_page {
   color: rgb(0, 78, 66);
   transition: color .3s;
 }
@@ -275,6 +279,21 @@ p.award:hover, h3.award:hover{
 p.noresults{
   text-align: center;
   margin: 100px;
+}
+
+
+/* LOGIN.HTML */
+form.login {
+  display: flex;
+  justify-content: center;
+  padding: 50px;
+}
+
+
+/* ADD_ATHLETE.HTML */
+form.add_athlete {
+  text-align: center;
+  padding: 50px;
 }
 
 
