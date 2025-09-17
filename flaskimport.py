@@ -341,66 +341,7 @@ def add_athlete(firstname, lastname, sport_name, award_name, award_year):
     print("Adding athlete:", firstname, lastname)
 
 
-# My bulk input page (to make it easier to input many athletes at once)
-@app.route('/bulk_add_athlete', methods=['GET', 'POST'])
-def index():
-    db = get_db()
-    # get the sport and award names for dropdowns (will be changed in future)
-    sports = db.execute('SELECT * FROM sport').fetchall()
-    awards = db.execute('SELECT * FROM award').fetchall()
-
-    if request.method == 'POST':
-        # store the athletes in list to be added to database
-        athletes = []
-        for i in range(len(request.form.getlist('firstname'))):
-            athletes.append({
-                'firstname': request.form.getlist('firstname')[i],
-                'lastname': request.form.getlist('lastname')[i],
-                'sport_id': request.form.getlist('sport_id')[i],
-                'award_id': request.form.getlist('award_id')[i],
-                'award_year': request.form.getlist('award_year')[i]
-            })
-        session['athletes'] = athletes
-        # make confirm button link to confirmation page
-        return redirect(url_for('confirmation'))
-    return render_template('bulk_add_athlete.html', sports=sports, awards=awards)
-
-
-# Link to confirmation page that inserts athletes into database
-@app.route('/confirmation', methods=['GET', 'POST'])
-def confirmation():
-    db = get_db()
-    # gets list of athletes from def index within the current session
-    # so that they can be inserted into database
-    athletes = session.get('athletes', [])
-    if request.method == 'POST':
-        # loop that runs through each athlete so they all get inserted
-        for a in athletes:
-            # insert athlete name into athlete table
-            cursor = db.execute(
-                'INSERT INTO athlete (firstname, lastname) VALUES (?, ?)',
-                (a['firstname'], a['lastname'])
-            )
-            athlete_id = cursor.lastrowid
-            # insert athlete_sport
-            db.execute(
-                'INSERT INTO athlete_sport (athlete_id, sport_id) VALUES (?, ?)',
-                (athlete_id, a['sport_id'])
-            )
-            # insert the award(s) won by the athlete
-            db.execute(
-                'INSERT INTO athlete_award (athlete_id, award_id, award_year) VALUES (?, ?, ?)',
-                (athlete_id, a['award_id'], a['award_year'])
-            )
-        # commit changes to database (bc not included in def close_db)
-        db.commit()
-        # clears the memory of the session
-        # if 'athletes' doesn't exist, returns None (so that it doesn't crash)
-        session.pop('athletes', None)
-    return render_template('confirmation.html', athletes=athletes)
-
-
-# error 404 page
+# error 404 p
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html"), 404
