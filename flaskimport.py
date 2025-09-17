@@ -94,8 +94,24 @@ def fetch_all_athletes():
 
 @app.route('/athletes')
 def athletes():
-    athletes = fetch_all_athletes()
-    return render_template('athletes.html', athletes=athletes)
+    search_query = request.args.get('search', '').strip()
+    db = get_db()
+    if search_query:
+        # If there's a search query, filter awards
+        cursor = db.execute('''
+            SELECT firstname, lastname
+            FROM athlete
+            WHERE firstname LIKE ?
+            OR lastname LIKE ?
+        ''', (f'%{search_query}%', f'%{search_query}%'))
+    else:
+        # No search query, show all awards
+        cursor = db.execute('''
+            SELECT firstname, lastname
+            FROM athlete
+        ''')
+    searched_athletes = cursor.fetchall()
+    return render_template('athletes.html', athletes=athletes, searched_athletes=searched_athletes)
 
 
 @app.route("/award")
