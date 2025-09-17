@@ -99,7 +99,7 @@ def athletes():
     if search_query:
         # If there's a search query, filter awards
         cursor = db.execute('''
-            SELECT firstname, lastname
+            SELECT athlete_id, firstname, lastname
             FROM athlete
             WHERE firstname LIKE ?
             OR lastname LIKE ?
@@ -107,7 +107,7 @@ def athletes():
     else:
         # No search query, show all awards
         cursor = db.execute('''
-            SELECT firstname, lastname
+            SELECT athlete_id, firstname, lastname
             FROM athlete
         ''')
     searched_athletes = cursor.fetchall()
@@ -118,7 +118,7 @@ def athletes():
 def awards():
     db = get_db()
     # get sport for dropdown sort box
-    sport_cursor = db.execute('''
+    sport_cursor = db.execute('''s
         SELECT sport_name
         FROM sport''')
     sport_name = sport_cursor.fetchall()
