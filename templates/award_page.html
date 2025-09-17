@@ -32,6 +32,7 @@
     <h3>This award has been won by:</h3>
     {% for athlete in award_info %}
       <a class="award_page" href="/player/{{ athlete['athlete_id'] }}">{{ athlete["firstname"] }} {{ athlete["lastname"] }}</a>
+      <br>
     {% endfor %}
   </body>
 

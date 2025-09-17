@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 app.secret_key = 'key'  # secure key to manage the session
 # hardcoded password
-PASSWORD = "Lizziessupersecretpassword123"
+PASSWORD = "lizziespass"
 
 
 def get_db():
@@ -341,7 +341,7 @@ def add_athlete(firstname, lastname, sport_name, award_name, award_year):
     print("Adding athlete:", firstname, lastname)
 
 
-# error 404 p
+# error 404 page
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html"), 404

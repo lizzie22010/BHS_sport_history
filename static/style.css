@@ -276,9 +276,17 @@ p.award:hover, h3.award:hover{
   color: rgb(0, 171, 142);
   transition: color .15s;
 }
-p.noresults{
+p.noresults {
   text-align: center;
   margin: 100px;
+}
+a.award_page {
+  display: flex;
+  justify-content: center;
+  color: rgb(0, 171, 142);
+}
+a.award_page:hover {
+  color: rgb(0, 78, 66);
 }
 
 
