@@ -118,12 +118,11 @@ def athletes():
 def awards():
     db = get_db()
     # get sport for dropdown sort box
-    sport_cursor = db.execute('''s
+    sport_cursor = db.execute('''
         SELECT sport_name
         FROM sport''')
     sport_name = sport_cursor.fetchall()
     search_query = request.args.get('search', '').strip()
-
     if search_query:
         # If there's a search query, filter awards
         award_cursor = db.execute('''
@@ -189,15 +188,20 @@ def player_profile(athlete_id):
 
 # award_page.html app route
 @app.route("/award_page/<int:award_id>")
-def get_award_info(award_id):
+def athlete_award_info(award_id):
     db = get_db()
     cursor = db.execute('''
-    SELECT *
+    SELECT
+        athlete.firstname,
+        athlete.lastname
     FROM award
-    WHERE award_id = ?
+    JOIN athlete_award ON athlete_award.award_id = award.award_id
+    JOIN athlete ON athlete_award.athlete_id = athlete.athlete_id
+    WHERE award.award_id = ?
     ''', (award_id,))
-    award_info = cursor.fetchone()
+    award_info = cursor.fetchall()
     return render_template("award_page.html", award_info=award_info)
+
 
 
 @app.route("/add_athlete", methods=['GET', 'POST'])

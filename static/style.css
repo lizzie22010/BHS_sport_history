@@ -53,6 +53,11 @@ a:hover {
   text-decoration: none;
 }
 
+footer {
+  position: fixed;
+  bottom: 0;
+}
+
 
 /* NAVIGATION STYLING */
 /* Add a background color to the top navigation */

@@ -24,9 +24,9 @@
   <p></p>
   {% endif %}
   <p> This award has been won by: </p>
-  {% for athlete in athlete_award %}
-  <p>{{ award_info["description"] }} </p>
-
+  {% for athlete in award_info %}
+    <p>{{ athlete["firstname"] }} {{ athlete["lastname"] }}</p>
+  {% endfor %}
 </body>
 
 {% endblock %}
