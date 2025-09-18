@@ -1,12 +1,20 @@
 from flask import Flask, render_template, g, abort, request, session, url_for, redirect, flash
 import sqlite3
 from pathlib import Path
+from dotenv import load_dotenv
 import os
+
+# load the variables from the .env file
+load_dotenv()
 
 app = Flask(__name__)
 
-app.secret_key = os.getenv("FLASK_SECRET_KEY", "dev-secret-key")  # Needed for sessions
-app.config["admin_password"] = os.getenv("ADMIN_PASSWORD", "default-password")  # For testing
+# Use the environment variables
+app.secret_key = os.getenv("FLASK_SECRET_KEY")
+app.config["admin_password"] = os.getenv("ADMIN_PASSWORD")
+
+# Optional debug print to verify
+print("Loaded admin password:", app.config["admin_password"])
 
 # checks if the password is the same as the one set in git bash
 if not app.config["admin_password"]:
