@@ -2,19 +2,31 @@ from flask import Flask, render_template, g, abort, request, session, url_for, r
 import sqlite3
 from pathlib import Path
 import os
-from dotenv import load_dotenv
-
-
-
 
 app = Flask(__name__)
-   
 
-dotenv_path = Path(".env")
-load_dotenv(dotenv_path)
+app.secret_key = os.getenv("FLASK_SECRET_KEY", "dev-secret-key")  # Needed for sessions
+app.config["admin_password"] = os.getenv("ADMIN_PASSWORD", "default-password")  # For testing
 
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-app.config['PASSWORD'] = os.getenv('PASSWORD')
+# checks if the password is the same as the one set in git bash
+if app.config["admin_password"]:
+    print("Password retrieved:", app.config["admin_password"])
+else:
+    print("No password found.")
+
+
+# load the .env
+def load_env():
+    env_path = Path(__file__).parent / ".env"
+    if env_path.exists():
+        with open(env_path) as f:
+            for line in f:
+                if line.strip() and not line.startswith("#"):
+                    key, value = line.strip().split("=", 1)
+                    os.environ[key] = value
+
+load_env()
+
 
 def get_db():
     # stores the database connection for db = get_db() 
@@ -261,12 +273,14 @@ def add_athlete_page():
     return render_template( 'add_athlete.html', sports=sports, awards=awards, message=message)
 
 
+print("Configured admin password:", app.config.get("admin_password"))
+
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
     if request.method == 'POST':
         password = request.form['password']
         # check password
-        if password == app.config["admin_pass"]:
+        if password == app.config.get("admin_password"):
             session['logged_in'] = True
             return redirect(url_for('add_athlete_page'))
         # if password is wrong
