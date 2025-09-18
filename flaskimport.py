@@ -9,13 +9,12 @@ app.secret_key = os.getenv("FLASK_SECRET_KEY", "dev-secret-key")  # Needed for s
 app.config["admin_password"] = os.getenv("ADMIN_PASSWORD", "default-password")  # For testing
 
 # checks if the password is the same as the one set in git bash
-if app.config["admin_password"]:
-    print("Password retrieved:", app.config["admin_password"])
-else:
+if not app.config["admin_password"]:
     print("No password found.")
 
 
 # load the .env
+# this is for my password and secret key storage
 def load_env():
     env_path = Path(__file__).parent / ".env"
     if env_path.exists():
@@ -272,8 +271,6 @@ def add_athlete_page():
         return redirect(url_for('login'))
     return render_template( 'add_athlete.html', sports=sports, awards=awards, message=message)
 
-
-print("Configured admin password:", app.config.get("admin_password"))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
