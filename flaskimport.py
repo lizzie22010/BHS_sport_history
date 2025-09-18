@@ -2,18 +2,19 @@ from flask import Flask, render_template, g, abort, request, session, url_for, r
 import sqlite3
 from pathlib import Path
 import os
-from flask.cli import load_dotenv
+from dotenv import load_dotenv
+
+
 
 
 app = Flask(__name__)
-
+   
 
 dotenv_path = Path(".env")
 load_dotenv(dotenv_path)
 
-app.config["admin_pass"] = os.getenv("PASSWORD")
-app.config["key"] = os.getenv("app.secret_key")
-
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['PASSWORD'] = os.getenv('PASSWORD')
 
 def get_db():
     # stores the database connection for db = get_db() 
