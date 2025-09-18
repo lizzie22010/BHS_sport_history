@@ -1,13 +1,18 @@
 from flask import Flask, render_template, g, abort, request, session, url_for, redirect, flash
 import sqlite3
+from pathlib import Path
+import os
+from flask.cli import load_dotenv
 
 
 app = Flask(__name__)
 
 
-app.secret_key = 'key'  # secure key to manage the session
-# hardcoded password
-PASSWORD = "lizziespass"
+dotenv_path = Path(".env")
+load_dotenv(dotenv_path)
+
+app.config["admin_pass"] = os.getenv("PASSWORD")
+app.config["key"] = os.getenv("app.secret_key")
 
 
 def get_db():
@@ -260,7 +265,7 @@ def login_page():
     if request.method == 'POST':
         password = request.form['password']
         # check password
-        if password == PASSWORD:
+        if password == app.config["admin_pass"]:
             session['logged_in'] = True
             return redirect(url_for('add_athlete_page'))
         # if password is wrong
