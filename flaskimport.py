@@ -23,7 +23,6 @@ def load_env():
                 if line.strip() and not line.startswith("#"):
                     key, value = line.strip().split("=", 1)
                     os.environ[key] = value
-
 load_env()
 
 
